@@ -54,7 +54,7 @@ public class RestSpecializationController implements IRestSpecializationControll
         ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("find/{id}")
     @Override
     public ResponseEntity<SpecializationResponseDTO> getSpecializationById(@PathVariable(name = "id") Long id) {
         SpecializationResponseDTO specializationResponseDTO = specializationService.getSpecializationById(id);
