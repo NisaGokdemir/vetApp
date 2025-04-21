@@ -6,7 +6,6 @@ import org.codewhiskers.vetapp.dto.Specialization.response.SpecializationRespons
 
 @Getter
 @Setter
-
 public class UserResponseDTO {
     private String username;
     private String firstName;
