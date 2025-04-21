@@ -5,7 +5,8 @@ import lombok.*;
 
 @Entity
 @Table(name = "prescription_items")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

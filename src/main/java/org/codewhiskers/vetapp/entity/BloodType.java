@@ -5,7 +5,8 @@ import lombok.*;
 
 @Entity
 @Table(name = "blood_types")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

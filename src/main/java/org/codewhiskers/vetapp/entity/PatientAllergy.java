@@ -5,7 +5,8 @@ import lombok.*;
 
 @Entity
 @Table(name = "patient_allergies")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
