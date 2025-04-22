@@ -1,6 +1,7 @@
 package org.codewhiskers.vetapp.controller.impl;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.codewhiskers.vetapp.controller.IRestSpeciesController;
 import org.codewhiskers.vetapp.dto.Species.request.SpeciesRequestDTO;
 import org.codewhiskers.vetapp.dto.Species.response.SpeciesResponseDTO;
@@ -8,45 +9,50 @@ import org.codewhiskers.vetapp.service.ISpeciesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/species")
-@Validated
 public class RestSpeciesController implements IRestSpeciesController {
 
     private final ISpeciesService speciesService;
 
-    @Autowired
-    public RestSpeciesController(ISpeciesService speciesService) {
-        this.speciesService = speciesService;
-    }
-
+    @Override
     @PostMapping
-    public SpeciesResponseDTO createSpecies(@RequestBody @Valid SpeciesRequestDTO speciesRequestDTO) {
-        return speciesService.createSpecies(speciesRequestDTO);
+    public ResponseEntity<SpeciesResponseDTO> createSpecies(@RequestBody @Valid SpeciesRequestDTO speciesRequestDTO) {
+        SpeciesResponseDTO response = speciesService.createSpecies(speciesRequestDTO);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    @Override
     @GetMapping("/{id}")
-    public SpeciesResponseDTO getSpeciesById(@PathVariable Long id) {
-        return speciesService.getSpeciesById(id);
+    public ResponseEntity<SpeciesResponseDTO> getSpeciesById(@PathVariable Long id) {
+        SpeciesResponseDTO response = speciesService.getSpeciesById(id);
+        return ResponseEntity.ok(response);
     }
 
-    //  /api/species?page=0&size=10
+    @Override
     @GetMapping
-    public Page<SpeciesResponseDTO> getAllSpecies(Pageable pageable) {
-        return speciesService.getAllSpecies(pageable);
+    public ResponseEntity<Page<SpeciesResponseDTO>> getAllSpecies(Pageable pageable) {
+        Page<SpeciesResponseDTO> response = speciesService.getAllSpecies(pageable);
+        return ResponseEntity.ok(response);
     }
 
+    @Override
     @PutMapping("/{id}")
-    public SpeciesResponseDTO updateSpecies(@PathVariable Long id, @RequestBody @Valid SpeciesRequestDTO speciesRequestDTO) {
-        return speciesService.updateSpecies(id, speciesRequestDTO);
+    public ResponseEntity<SpeciesResponseDTO> updateSpecies(@PathVariable Long id,
+                                                            @RequestBody @Valid SpeciesRequestDTO speciesRequestDTO) {
+        SpeciesResponseDTO response = speciesService.updateSpecies(id, speciesRequestDTO);
+        return ResponseEntity.ok(response);
     }
 
+    @Override
     @DeleteMapping("/{id}")
-    public void deleteSpecies(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteSpecies(@PathVariable Long id) {
         speciesService.deleteSpecies(id);
+        return ResponseEntity.noContent().build(); // 204 No Content
     }
 }
