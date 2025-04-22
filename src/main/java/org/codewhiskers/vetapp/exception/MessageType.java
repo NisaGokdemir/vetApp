@@ -10,13 +10,14 @@ public enum MessageType {
     RECORDS_NOT_FOUND("1003","Kayıtlar bulunamadı"),
     RECORD_UPDATE_UNSUCCESS("1004","Kayıt güncellenemedi"),
     RECORD_DELETE_UNSUCCESS("1005","Kayıt silinemedi"),
+    INVALID_INPUT("1006", "Geçersiz giriş"),
 
 
 
     GENERAL_EXCEPTION("9999","Genel bir hata oluştu"),
     REFRESH_TOKEN_EXPIRED("1002", "refresh token süresi dolmuştur"),
     REFRESH_TOKEN_NOT_FOUND("1003", "refresh token bulunamadı"),
-    USERNAME_OR_PASSWORD_INVALID("1004","kullanıcı adı veya şifre hatalı");
+    USERNAME_OR_PASSWORD_INVALID("1004","kullanıcı adı veya şifre hatalı"),;
 
     private String code;
 
