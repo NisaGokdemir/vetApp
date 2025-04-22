@@ -12,10 +12,12 @@ public interface BreedMapper {
     BreedResponseDTO toBreedResponseDto(Breed breed);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "name", source = "dto.name")
     @Mapping(target = "species", source = "species")
     Breed toBreedEntity(BreedRequestDTO dto, Species species);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "name", source = "dto.name")
     @Mapping(target = "species", source = "species")
     void updateBreedEntity(BreedRequestDTO dto, @MappingTarget Breed breed, Species species);
 }

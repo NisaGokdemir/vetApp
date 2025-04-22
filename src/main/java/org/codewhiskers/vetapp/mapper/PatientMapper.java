@@ -12,10 +12,15 @@ public interface PatientMapper {
     PatientResponseDTO toPatientResponseDto(Patient patient);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "name", source = "dto.name")
+    @Mapping(target = "age", source = "dto.age")
+    @Mapping(target = "weight", source = "dto.weight")
+    @Mapping(target = "chipNumber", source = "dto.chipNumber")
+    @Mapping(target = "nextCheckup", source = "dto.nextCheckup")
+    @Mapping(target = "bloodType", source = "bloodType")
     @Mapping(target = "owner", source = "owner")
     @Mapping(target = "species", source = "species")
     @Mapping(target = "breed", source = "breed")
-    @Mapping(target = "bloodType", source = "bloodType")
     Patient toPatientEntity(PatientRequestDTO dto,
                             Owner owner,
                             Species species,
@@ -23,10 +28,15 @@ public interface PatientMapper {
                             BloodType bloodType);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "name", source = "dto.name")
+    @Mapping(target = "age", source = "dto.age")
+    @Mapping(target = "weight", source = "dto.weight")
+    @Mapping(target = "chipNumber", source = "dto.chipNumber")
+    @Mapping(target = "nextCheckup", source = "dto.nextCheckup")
+    @Mapping(target = "bloodType", source = "bloodType")
     @Mapping(target = "owner", source = "owner")
     @Mapping(target = "species", source = "species")
     @Mapping(target = "breed", source = "breed")
-    @Mapping(target = "bloodType", source = "bloodType")
     void updatePatientEntity(PatientRequestDTO dto,
                              @MappingTarget Patient patient,
                              Owner owner,
