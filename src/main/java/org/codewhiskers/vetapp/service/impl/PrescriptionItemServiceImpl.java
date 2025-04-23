@@ -4,12 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.codewhiskers.vetapp.dto.PrescriptionItem.request.PrescriptionItemRequestDTO;
 import org.codewhiskers.vetapp.dto.PrescriptionItem.response.PrescriptionItemResponseDTO;
 import org.codewhiskers.vetapp.entity.Medication;
+import org.codewhiskers.vetapp.entity.MedicationBatch;
 import org.codewhiskers.vetapp.entity.Prescription;
 import org.codewhiskers.vetapp.entity.PrescriptionItem;
 import org.codewhiskers.vetapp.exception.BaseException;
 import org.codewhiskers.vetapp.exception.ErrorMessage;
 import org.codewhiskers.vetapp.exception.MessageType;
 import org.codewhiskers.vetapp.mapper.PrescriptionItemMapper;
+import org.codewhiskers.vetapp.repository.MedicationBatchRepository;
 import org.codewhiskers.vetapp.repository.MedicationRepository;
 import org.codewhiskers.vetapp.repository.PrescriptionItemRepository;
 import org.codewhiskers.vetapp.repository.PrescriptionRepository;
@@ -28,6 +30,7 @@ public class PrescriptionItemServiceImpl implements IPrescriptionItemService {
     private final PrescriptionItemMapper prescriptionItemMapper;
     private final PrescriptionRepository prescriptionRepository;
     private final MedicationRepository medicationRepository;
+    private final MedicationBatchRepository medicationBatchRepository;
 
     private PrescriptionItem findPrescriptionItemById(Long id) {
         return prescriptionItemRepository.findById(id)
@@ -68,18 +71,45 @@ public class PrescriptionItemServiceImpl implements IPrescriptionItemService {
     @Override
     public PrescriptionItemResponseDTO createPrescriptionItem(PrescriptionItemRequestDTO dto) {
         PrescriptionItem prescriptionItem = prescriptionItemMapper.toPrescriptionItem(dto);
+
         if (dto.getMedicationId() != null && dto.getPrescriptionId() != null) {
             Medication medication = findMedicationById(dto.getMedicationId());
             prescriptionItem.setMedication(medication);
+
             Prescription prescription = findPrescriptionById(dto.getPrescriptionId());
             prescriptionItem.setPrescription(prescription);
         }
-        prescriptionItemRepository.save(prescriptionItem);
-        if (prescriptionItem.getId() == null) {
-            throw new BaseException(new ErrorMessage(MessageType.RECORD_CREATE_UNSUCCESS, prescriptionItem.getId().toString()));
+        
+        if (dto.getMedicationBatchId() != null) {
+            MedicationBatch batch = medicationBatchRepository.findById(dto.getMedicationBatchId())
+                    .orElseThrow(() -> new BaseException(
+                            new ErrorMessage(MessageType.NO_RECORD_EXIST, "Medication Batch ID: " + dto.getMedicationBatchId())));
+
+            int dailyDose = Integer.parseInt(dto.getDailyDose());
+            int totalNeeded = dailyDose * dto.getDurationDays();
+            prescriptionItem.setTotalAmount(totalNeeded);
+
+            if (batch.getQuantity() < totalNeeded) {
+                throw new BaseException(new ErrorMessage(MessageType.RECORD_CREATE_UNSUCCESS,
+                        "Seçilen batch'te yeterli stok yok. Mevcut: " + batch.getQuantity() + ", Gerekli: " + totalNeeded));
+            }
+
+            // Stoğu düş
+            batch.setQuantity(batch.getQuantity() - totalNeeded);
+            medicationBatchRepository.save(batch);
+
         }
+
+        prescriptionItemRepository.save(prescriptionItem);
+
+        if (prescriptionItem.getId() == null) {
+            throw new BaseException(new ErrorMessage(MessageType.RECORD_CREATE_UNSUCCESS,
+                    "Kayıt başarısız"));
+        }
+
         return prescriptionItemMapper.toPrescriptionItemResponseDto(prescriptionItem);
     }
+
 
     @Override
     public PrescriptionItemResponseDTO updatePrescriptionItem(Long id, PrescriptionItemRequestDTO dto) {
