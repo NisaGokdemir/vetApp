@@ -15,9 +15,9 @@ public enum MessageType {
 
 
     GENERAL_EXCEPTION("9999","Genel bir hata oluştu"),
-    REFRESH_TOKEN_EXPIRED("1002", "refresh token süresi dolmuştur"),
-    REFRESH_TOKEN_NOT_FOUND("1003", "refresh token bulunamadı"),
-    USERNAME_OR_PASSWORD_INVALID("1004","kullanıcı adı veya şifre hatalı"),;
+    REFRESH_TOKEN_EXPIRED("2001", "Refresh token süresi dolmuştur"),
+    REFRESH_TOKEN_NOT_FOUND("2002", "Refresh token bulunamadı");
+    // USERNAME_OR_PASSWORD_INVALID("1004","kullanıcı adı veya şifre hatalı"),;
 
     private String code;
 
