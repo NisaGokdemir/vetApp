@@ -12,6 +12,7 @@ public enum MessageType {
     RECORD_DELETE_UNSUCCESS("1005","Kayıt silinemedi"),
     INVALID_INPUT("1006", "Geçersiz giriş"),
     REQUIRED_FIELD_MISSING("1007","Eksik alan" ),
+    UNAUTHORIZED_ACCESS("1008", "Erişim yetkiniz bulunmamaktadır"),
 
 
 

@@ -9,8 +9,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.codewhiskers.vetapp.exception.BaseException;
+import org.codewhiskers.vetapp.exception.ErrorMessage;
+import org.codewhiskers.vetapp.exception.MessageType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -24,6 +27,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = {BaseException.class})
     public ResponseEntity<ApiError<?>> handleBaseException(BaseException ex, WebRequest request) {
         return ResponseEntity.badRequest().body(createApiError(ex.getMessage(), request));
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorMessage> handleAccessDenied(AccessDeniedException ex) {
+        return new ResponseEntity<>(
+                new ErrorMessage(MessageType.UNAUTHORIZED_ACCESS, ex.getMessage()),
+                HttpStatus.FORBIDDEN
+        );
     }
 
     @ExceptionHandler(value = {MethodArgumentNotValidException.class})
