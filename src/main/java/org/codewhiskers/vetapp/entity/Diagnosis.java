@@ -2,6 +2,7 @@ package org.codewhiskers.vetapp.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CurrentTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -31,5 +32,6 @@ public class Diagnosis {
     @Column(columnDefinition = "TEXT")
     private String treatmentPlan;
 
+    @CurrentTimestamp
     private LocalDateTime diagnosisDate;
 }

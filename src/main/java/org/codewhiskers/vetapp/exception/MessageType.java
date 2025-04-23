@@ -11,6 +11,7 @@ public enum MessageType {
     RECORD_UPDATE_UNSUCCESS("1004","Kayıt güncellenemedi"),
     RECORD_DELETE_UNSUCCESS("1005","Kayıt silinemedi"),
     INVALID_INPUT("1006", "Geçersiz giriş"),
+    REQUIRED_FIELD_MISSING("1007","Eksik alan" ),
 
 
 

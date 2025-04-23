@@ -49,7 +49,7 @@ public class RestMedicationController implements IRestMedicationController {
     public ResponseEntity<MedicationResponseDTO> createMedication(@RequestBody MedicationRequestDTO medication) {
         MedicationResponseDTO medicationResponseDTO = medicationService.createMedication(medication);
         if(medicationResponseDTO == null) {
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(medicationResponseDTO);
     }

@@ -2,6 +2,7 @@ package org.codewhiskers.vetapp.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CurrentTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -21,6 +22,7 @@ public class Prescription {
     @JoinColumn(name = "diagnosis_id")
     private Diagnosis diagnosis;
 
+    @CurrentTimestamp
     private LocalDateTime createdAt;
 
     @Column(columnDefinition = "TEXT")
