@@ -9,6 +9,8 @@ import org.codewhiskers.vetapp.dto.User.response.UserResponseDTO;
 @Setter
 public class DiagnosisResponseDTO {
 
+    private Long id;
+
     private PatientResponseDTO patient;
 
     private UserResponseDTO vet;

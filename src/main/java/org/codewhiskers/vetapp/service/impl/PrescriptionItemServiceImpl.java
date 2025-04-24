@@ -79,7 +79,7 @@ public class PrescriptionItemServiceImpl implements IPrescriptionItemService {
             Prescription prescription = findPrescriptionById(dto.getPrescriptionId());
             prescriptionItem.setPrescription(prescription);
         }
-        
+
         if (dto.getMedicationBatchId() != null) {
             MedicationBatch batch = medicationBatchRepository.findById(dto.getMedicationBatchId())
                     .orElseThrow(() -> new BaseException(

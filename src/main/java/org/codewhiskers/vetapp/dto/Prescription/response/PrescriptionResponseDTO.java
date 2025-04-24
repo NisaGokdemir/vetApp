@@ -7,6 +7,7 @@ import org.codewhiskers.vetapp.dto.Diagnosis.response.DiagnosisResponseDTO;
 @Getter
 @Setter
 public class PrescriptionResponseDTO {
+    private Long id;
     private String notes;
     private DiagnosisResponseDTO diagnosis;
 }

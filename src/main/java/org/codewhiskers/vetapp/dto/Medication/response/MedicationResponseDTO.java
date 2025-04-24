@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 
 public class MedicationResponseDTO {
+    private Long id;
     private String name;
     private String unit;
     private Integer stockWarningLevel;
