@@ -135,4 +135,13 @@ public class PrescriptionItemServiceImpl implements IPrescriptionItemService {
             throw new BaseException(new ErrorMessage(MessageType.RECORD_DELETE_UNSUCCESS, prescriptionItem.getId().toString()));
         }
     }
+
+    @Override
+    public Page<PrescriptionItem> findByPrescriptionId(Long prescriptionId, Pageable pageable) {
+        Prescription prescription = findPrescriptionById(prescriptionId);
+        if (prescription == null) {
+            throw new BaseException(new ErrorMessage(MessageType.NO_RECORD_EXIST, "Prescription ID: " + prescriptionId));
+        }
+        return prescriptionItemRepository.findByPrescriptionId(prescriptionId, pageable);
+    }
 }

@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.codewhiskers.vetapp.controller.IRestPrescriptionItemController;
 import org.codewhiskers.vetapp.dto.PrescriptionItem.request.PrescriptionItemRequestDTO;
 import org.codewhiskers.vetapp.dto.PrescriptionItem.response.PrescriptionItemResponseDTO;
+import org.codewhiskers.vetapp.entity.PrescriptionItem;
 import org.codewhiskers.vetapp.service.IPrescriptionItemService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -63,5 +64,15 @@ public class RestPrescriptionItemController implements IRestPrescriptionItemCont
     public void deletePrescriptionItem(@PathVariable Long id) {
         prescriptionItemService.deletePrescriptionItem(id);
         ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/prescription/{prescriptionId}")
+    @Override
+    public ResponseEntity<Page<PrescriptionItem>> findByPrescriptionId(@PathVariable Long prescriptionId, Pageable pageable) {
+        Page<PrescriptionItem> page = prescriptionItemService.findByPrescriptionId(prescriptionId, pageable);
+        if (page.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(page);
     }
 }

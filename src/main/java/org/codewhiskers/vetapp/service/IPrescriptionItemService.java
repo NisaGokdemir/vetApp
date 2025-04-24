@@ -2,6 +2,7 @@ package org.codewhiskers.vetapp.service;
 
 import org.codewhiskers.vetapp.dto.PrescriptionItem.request.PrescriptionItemRequestDTO;
 import org.codewhiskers.vetapp.dto.PrescriptionItem.response.PrescriptionItemResponseDTO;
+import org.codewhiskers.vetapp.entity.PrescriptionItem;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -17,5 +18,7 @@ public interface IPrescriptionItemService {
     PrescriptionItemResponseDTO updatePrescriptionItem(Long id, PrescriptionItemRequestDTO dto);
 
     void deletePrescriptionItem(Long id);
+
+    Page<PrescriptionItem> findByPrescriptionId(Long prescriptionId, Pageable pageable);
 
 }
