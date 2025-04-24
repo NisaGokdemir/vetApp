@@ -63,4 +63,14 @@ public class RestPrescriptionController implements IRestPrescriptionController {
         prescriptionService.deletePrescription(id);
         ResponseEntity.ok().build();
     }
+
+    @GetMapping("/diagnosis/{diagnosisId}")
+    @Override
+    public ResponseEntity<Page<PrescriptionResponseDTO>> getPrescriptionsByDiagnosisId(Long diagnosisId, Pageable pageable) {
+        Page<PrescriptionResponseDTO> prescriptions = prescriptionService.getPrescriptionsByDiagnosisId(diagnosisId, pageable);
+        if (!prescriptions.hasContent()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(prescriptions);
+    }
 }

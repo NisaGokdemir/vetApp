@@ -92,4 +92,14 @@ public class PrescriptionServiceImpl implements IPrescriptionService {
             throw new BaseException(new ErrorMessage(MessageType.RECORD_DELETE_UNSUCCESS, id.toString()));
         }
     }
+
+    @Override
+    public Page<PrescriptionResponseDTO> getPrescriptionsByDiagnosisId(Long diagnosisId, Pageable pageable) {
+        Diagnosis diagnosis = findDiagnosisById(diagnosisId);
+        Page<Prescription> prescriptions = prescriptionRepository.findByDiagnosis(diagnosis, pageable);
+        if (!prescriptions.hasContent()) {
+            throw new BaseException(new ErrorMessage(MessageType.RECORDS_NOT_FOUND, ""));
+        }
+        return prescriptions.map(prescriptionMapper::prescriptionToResponseDTO);
+    }
 }

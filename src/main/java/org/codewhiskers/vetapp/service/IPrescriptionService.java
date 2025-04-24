@@ -16,4 +16,6 @@ public interface IPrescriptionService {
     PrescriptionResponseDTO updatePrescription(Long id, PrescriptionRequestDTO prescriptionRequestDTO);
 
     void deletePrescription(Long id);
+
+    Page<PrescriptionResponseDTO> getPrescriptionsByDiagnosisId(Long diagnosisId, Pageable pageable);
 }
