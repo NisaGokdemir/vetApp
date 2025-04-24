@@ -11,7 +11,7 @@ public interface IRestMedicationController {
 
     ResponseEntity<MedicationResponseDTO> getMedicationById(Long id);
 
-    void DeleteMedicationById(Long id);
+    ResponseEntity<Void> DeleteMedicationById(Long id);
 
     ResponseEntity<MedicationResponseDTO> createMedication(MedicationRequestDTO medication);
 

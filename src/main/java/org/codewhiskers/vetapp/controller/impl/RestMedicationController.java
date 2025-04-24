@@ -39,9 +39,9 @@ public class RestMedicationController implements IRestMedicationController {
 
     @DeleteMapping("/delete/{id}")
     @Override
-    public void DeleteMedicationById(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<Void> DeleteMedicationById(@PathVariable(name = "id") Long id) {
         medicationService.DeleteMedicationById(id);
-        ResponseEntity.ok().build();
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/create")
