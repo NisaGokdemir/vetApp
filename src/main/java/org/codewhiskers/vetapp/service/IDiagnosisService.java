@@ -6,6 +6,8 @@ import org.codewhiskers.vetapp.entity.Diagnosis;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface IDiagnosisService {
 
     Page<DiagnosisResponseDTO> getAllDiagnoses(Pageable pageable);
@@ -17,5 +19,7 @@ public interface IDiagnosisService {
     DiagnosisResponseDTO updateDiagnosis(Long id, DiagnosisRequestDTO diagnosisRequestDTO);
 
     void deleteDiagnosis(Long id);
+
+    List<DiagnosisResponseDTO> getDiagnosesByPatientId(Long patientId); // Veya Page<DiagnosisResponseDTO>
 
 }

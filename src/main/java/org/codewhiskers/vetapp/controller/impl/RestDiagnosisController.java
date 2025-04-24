@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/diagnosis")
@@ -59,12 +61,21 @@ public class RestDiagnosisController implements IRestDiagnosisController {
 
     @DeleteMapping("/delete/{id}")
     @Override
-    public void deleteDiagnosis(@PathVariable Long id) {
-        DiagnosisResponseDTO diagnosis = diagnosisService.getDiagnosisById(id);
+    public ResponseEntity<Void> deleteDiagnosis(@PathVariable Long id) {
+        DiagnosisResponseDTO diagnosis = diagnosisService.getDiagnosisById(id); // Var mı kontrolü
         if(diagnosis == null) {
-            ResponseEntity.notFound().build();
+            return ResponseEntity.notFound().build(); // 404 Not Found
         }
         diagnosisService.deleteDiagnosis(id);
-        ResponseEntity.ok().build();
+        return ResponseEntity.ok().build(); // 200 OK
+    }
+
+    @GetMapping("/patient/{patientId}")
+    public ResponseEntity<List<DiagnosisResponseDTO>> getDiagnosesByPatientId(@PathVariable Long patientId) {
+        List<DiagnosisResponseDTO> diagnoses = diagnosisService.getDiagnosesByPatientId(patientId);
+        if(diagnoses.isEmpty()) {
+            return ResponseEntity.noContent().build(); // 204 No Content dönebilirsiniz
+        }
+        return ResponseEntity.ok(diagnoses); // 200 OK dönebilirsiniz
     }
 }

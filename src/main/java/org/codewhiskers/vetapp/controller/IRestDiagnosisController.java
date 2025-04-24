@@ -15,5 +15,5 @@ public interface IRestDiagnosisController {
 
     ResponseEntity<DiagnosisResponseDTO> updateDiagnosis(Long id, DiagnosisRequestDTO diagnosisRequestDTO);
 
-    void deleteDiagnosis(Long id);
+    ResponseEntity<Void> deleteDiagnosis(Long id);
 }

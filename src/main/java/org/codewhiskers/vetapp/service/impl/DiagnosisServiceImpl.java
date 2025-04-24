@@ -18,6 +18,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class DiagnosisServiceImpl implements IDiagnosisService {
@@ -96,5 +99,23 @@ public class DiagnosisServiceImpl implements IDiagnosisService {
         if (diagnosisRepository.existsById(id)) {
             throw new BaseException(new ErrorMessage(MessageType.RECORD_DELETE_UNSUCCESS,id.toString()));
         }
+    }
+
+    @Override
+    public List<DiagnosisResponseDTO> getDiagnosesByPatientId(Long patientId) {
+        // Patient'ın varlığını kontrol etmek iyi bir pratik olabilir
+        findPatientById(patientId); // Patient yoksa exception fırlatır
+
+        // DiagnosisRepository'de findByPatientId metodu olmalı
+        List<Diagnosis> diagnoses = diagnosisRepository.findByPatientId(patientId);
+
+        // Boş liste kontrolü (isteğe bağlı, frontend de yapabilir)
+        // if (diagnoses.isEmpty()) {
+        //     throw new BaseException(new ErrorMessage(MessageType.RECORDS_NOT_FOUND, "Bu hastaya ait tanı bulunamadı"));
+        // }
+
+        return diagnoses.stream()
+                .map(diagnosisMapper::diagnosisToResponseDTO)
+                .collect(Collectors.toList());
     }
 }
