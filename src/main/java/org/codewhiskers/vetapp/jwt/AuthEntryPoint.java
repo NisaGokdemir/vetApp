@@ -12,6 +12,11 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+/**
+ * AuthenticationEntryPoint:
+ * - Kullanıcı henüz kimlik doğrulaması yapmadan korumalı bir endpoint'e erişmeye çalıştığında
+ *   (ör. token eksik veya geçersiz) burası devreye girer ve 401 döner.
+ */
 @Component
 public class AuthEntryPoint implements AuthenticationEntryPoint {
 
@@ -23,13 +28,15 @@ public class AuthEntryPoint implements AuthenticationEntryPoint {
                          AuthenticationException authException)
             throws IOException, ServletException {
 
-        ErrorMessage errorMessage = new ErrorMessage(
-                MessageType.UNAUTHORIZED_ACCESS,
-                request.getRequestURI()
-        );
-
-        response.setContentType("application/json");
+        // 401 Unauthorized
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.getWriter().write(objectMapper.writeValueAsString(errorMessage));
+        response.setContentType("application/json");
+
+        // Kendi hata modelinize uygun JSON üretimi
+        ErrorMessage err = new ErrorMessage(
+                MessageType.UNAUTHORIZED_ACCESS,
+                "URI: " + request.getRequestURI()
+        );
+        response.getWriter().write(objectMapper.writeValueAsString(err));
     }
 }
