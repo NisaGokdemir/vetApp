@@ -20,11 +20,13 @@ public interface PatientMapper {
     @Mapping(target = "owner", source = "owner")
     @Mapping(target = "species", source = "species")
     @Mapping(target = "breed", source = "breed")
+    @Mapping(target = "family", source = "family")
     Patient toPatientEntity(PatientRequestDTO dto,
                             Owner owner,
                             Species species,
                             Breed breed,
-                            BloodType bloodType);
+                            BloodType bloodType,
+                            Family family);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "name", source = "dto.name")
@@ -35,10 +37,12 @@ public interface PatientMapper {
     @Mapping(target = "owner", source = "owner")
     @Mapping(target = "species", source = "species")
     @Mapping(target = "breed", source = "breed")
+    @Mapping(target = "family", source = "family")
     void updatePatientEntity(PatientRequestDTO dto,
                              @MappingTarget Patient patient,
                              Owner owner,
                              Species species,
                              Breed breed,
-                             BloodType bloodType);
+                             BloodType bloodType,
+                             Family family);
 }

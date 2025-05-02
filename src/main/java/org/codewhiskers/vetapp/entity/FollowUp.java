@@ -3,7 +3,7 @@ package org.codewhiskers.vetapp.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "follow_ups")
@@ -16,10 +16,10 @@ public class FollowUp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String frequency;
-    private LocalDateTime nextFollowUpDate;
+    private LocalDate nextFollowUpDate;
     private String notes;
 
     @ManyToOne

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CurrentTimestamp;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "prescriptions")
@@ -23,7 +23,7 @@ public class Prescription {
     private Diagnosis diagnosis;
 
     @CurrentTimestamp
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
 
     @Column(columnDefinition = "TEXT")
     private String notes;

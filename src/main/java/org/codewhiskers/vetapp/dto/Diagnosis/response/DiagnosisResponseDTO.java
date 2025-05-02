@@ -6,6 +6,8 @@ import org.codewhiskers.vetapp.dto.Clinic.response.ClinicResponseDTO;
 import org.codewhiskers.vetapp.dto.Patient.response.PatientResponseDTO;
 import org.codewhiskers.vetapp.dto.User.response.UserResponseDTO;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 public class DiagnosisResponseDTO {
@@ -25,5 +27,7 @@ public class DiagnosisResponseDTO {
     private String symptoms;
 
     private String notes;
+
+    private LocalDate nextFollowUpDate;
 
 }

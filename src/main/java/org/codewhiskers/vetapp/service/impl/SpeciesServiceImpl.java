@@ -3,11 +3,13 @@ package org.codewhiskers.vetapp.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.codewhiskers.vetapp.dto.Species.request.SpeciesRequestDTO;
 import org.codewhiskers.vetapp.dto.Species.response.SpeciesResponseDTO;
+import org.codewhiskers.vetapp.entity.Family;
 import org.codewhiskers.vetapp.entity.Species;
 import org.codewhiskers.vetapp.exception.BaseException;
 import org.codewhiskers.vetapp.exception.ErrorMessage;
 import org.codewhiskers.vetapp.exception.MessageType;
 import org.codewhiskers.vetapp.mapper.SpeciesMapper;
+import org.codewhiskers.vetapp.repository.FamilyRepository;
 import org.codewhiskers.vetapp.repository.SpeciesRepository;
 import org.codewhiskers.vetapp.service.ISpeciesService;
 import org.springframework.data.domain.Page;
@@ -20,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class SpeciesServiceImpl implements ISpeciesService {
 
     private final SpeciesRepository speciesRepository;
+    private final FamilyRepository familyRepository;
     private final SpeciesMapper speciesMapper;
 
     private Species findSpeciesById(Long id) {
@@ -29,9 +32,18 @@ public class SpeciesServiceImpl implements ISpeciesService {
                 );
     }
 
+    private Family findFamilyById(Long id) {
+        return familyRepository.findById(id)
+                .orElseThrow(() -> new BaseException(
+                        new ErrorMessage(MessageType.NO_RECORD_EXIST, "Family ID: " + id))
+                );
+    }
+
     @Override
     public SpeciesResponseDTO createSpecies(SpeciesRequestDTO speciesRequestDTO) {
         Species species = speciesMapper.toSpeciesEntity(speciesRequestDTO);
+        Family family = findFamilyById(speciesRequestDTO.getFamilyId());
+        species.setFamily(family);
         species = speciesRepository.save(species);
         return speciesMapper.toSpeciesResponseDto(species);
     }
@@ -54,6 +66,8 @@ public class SpeciesServiceImpl implements ISpeciesService {
     @Override
     public SpeciesResponseDTO updateSpecies(Long id, SpeciesRequestDTO speciesRequestDTO) {
         Species species = findSpeciesById(id);
+        Family family = findFamilyById(speciesRequestDTO.getFamilyId());
+        species.setFamily(family);
         speciesMapper.updateSpeciesEntity(speciesRequestDTO, species);
         species = speciesRepository.save(species);
         return speciesMapper.toSpeciesResponseDto(species);

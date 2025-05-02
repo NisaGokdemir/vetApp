@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CurrentTimestamp;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -20,7 +21,7 @@ public class RadiologicImage {
     private String testName;
 
     @CurrentTimestamp
-    private LocalDateTime uploadDate;
+    private LocalDate uploadDate;
 
     private String fileName;
     private String filePath;

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CurrentTimestamp;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "blood_results")
@@ -21,7 +21,7 @@ public class BloodResult {
     private String testName;
 
     @CurrentTimestamp
-    private LocalDateTime uploadDate;
+    private LocalDate uploadDate;
 
     private String fileName;
     private String filePath;

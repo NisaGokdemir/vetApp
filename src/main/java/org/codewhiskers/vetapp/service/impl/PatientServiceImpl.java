@@ -29,6 +29,7 @@ public class PatientServiceImpl implements IPatientService {
     private final OwnerRepository ownerRepository;
     private final SpeciesRepository speciesRepository;
     private final PatientMapper patientMapper;
+    private final FamilyRepository familyRepository;
 
     private Patient findPatientById(Long id) {
         return patientRepository.findById(id)
@@ -65,6 +66,13 @@ public class PatientServiceImpl implements IPatientService {
                 );
     }
 
+    private Family findFamilyById(Long id) {
+        return familyRepository.findById(id)
+                .orElseThrow(() -> new BaseException(
+                        new ErrorMessage(MessageType.NO_RECORD_EXIST, "Family ID: " + id))
+                );
+    }
+
     @Transactional
     @Override
     public PatientResponseDTO createPatient(PatientRequestDTO patientRequestDTO) {
@@ -72,7 +80,8 @@ public class PatientServiceImpl implements IPatientService {
         Breed breed = findBreedTypeById(patientRequestDTO.getBreedId());
         Owner owner = findOwnerById(patientRequestDTO.getOwnerId());
         Species species = findSpeciesById(patientRequestDTO.getSpeciesId());
-        Patient patient = patientMapper.toPatientEntity(patientRequestDTO, owner, species, breed, bloodType);
+        Family family = findFamilyById(patientRequestDTO.getFamilyId());
+        Patient patient = patientMapper.toPatientEntity(patientRequestDTO, owner, species, breed, bloodType, family);
         patient = patientRepository.save(patient);
         return patientMapper.toPatientResponseDto(patient);
     }
@@ -100,7 +109,8 @@ public class PatientServiceImpl implements IPatientService {
         Owner owner = findOwnerById(patientRequestDTO.getOwnerId());
         Species species = findSpeciesById(patientRequestDTO.getSpeciesId());
         Patient patient = findPatientById(id);
-        patientMapper.updatePatientEntity(patientRequestDTO, patient, owner, species, breed, bloodType);
+        Family family = findFamilyById(patientRequestDTO.getFamilyId());
+        patientMapper.updatePatientEntity(patientRequestDTO, patient, owner, species, breed, bloodType, family);
         patient = patientRepository.save(patient);
         return patientMapper.toPatientResponseDto(patient);
     }

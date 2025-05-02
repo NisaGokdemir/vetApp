@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CurrentTimestamp;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -42,7 +43,7 @@ public class Diagnosis {
     private User vet;
 
     @CurrentTimestamp
-    private LocalDateTime diagnosisDate;
+    private LocalDate diagnosisDate;
 
     private LocalDateTime nextFollowUpDate;
 }

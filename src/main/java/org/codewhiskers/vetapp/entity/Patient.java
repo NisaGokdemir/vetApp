@@ -36,7 +36,7 @@ public class Patient {
     private Breed breed;
 
     @ManyToOne
-    @JoinColumn(name = "clinic_id")
+    @JoinColumn(name = "family_id")
     private Family family;
 
 }

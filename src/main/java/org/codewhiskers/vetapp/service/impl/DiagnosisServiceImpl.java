@@ -3,6 +3,7 @@ package org.codewhiskers.vetapp.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.codewhiskers.vetapp.dto.Diagnosis.request.DiagnosisRequestDTO;
 import org.codewhiskers.vetapp.dto.Diagnosis.response.DiagnosisResponseDTO;
+import org.codewhiskers.vetapp.entity.Clinic;
 import org.codewhiskers.vetapp.entity.Diagnosis;
 import org.codewhiskers.vetapp.entity.Patient;
 import org.codewhiskers.vetapp.entity.User;
@@ -10,6 +11,7 @@ import org.codewhiskers.vetapp.exception.BaseException;
 import org.codewhiskers.vetapp.exception.ErrorMessage;
 import org.codewhiskers.vetapp.exception.MessageType;
 import org.codewhiskers.vetapp.mapper.DiagnosisMapper;
+import org.codewhiskers.vetapp.repository.ClinicRepository;
 import org.codewhiskers.vetapp.repository.DiagnosisRepository;
 import org.codewhiskers.vetapp.repository.PatientRepository;
 import org.codewhiskers.vetapp.repository.UserRepository;
@@ -29,6 +31,7 @@ public class DiagnosisServiceImpl implements IDiagnosisService {
     private final DiagnosisMapper diagnosisMapper;
     private final UserRepository userRepository;
     private final PatientRepository patientRepository;
+    private final ClinicRepository clinicRepository;
 
     private Diagnosis findDiagnosisById(Long id) {
         return diagnosisRepository.findById(id).orElseThrow(
@@ -44,6 +47,12 @@ public class DiagnosisServiceImpl implements IDiagnosisService {
 
     private Patient findPatientById(Long id) {
         return patientRepository.findById(id).orElseThrow(
+                () -> new BaseException(new ErrorMessage(MessageType.NO_RECORD_EXIST,id.toString()))
+        );
+    }
+
+    private Clinic findClinicById(Long id) {
+        return clinicRepository.findById(id).orElseThrow(
                 () -> new BaseException(new ErrorMessage(MessageType.NO_RECORD_EXIST,id.toString()))
         );
     }
@@ -71,6 +80,8 @@ public class DiagnosisServiceImpl implements IDiagnosisService {
         }
         User vet = findUserById(diagnosisRequestDTO.getVetId());
         Patient patient = findPatientById(diagnosisRequestDTO.getPatientId());
+        Clinic clinic = findClinicById(diagnosisRequestDTO.getClinicId());
+        diagnosis.setClinic(clinic);
         diagnosis.setVet(vet);
         diagnosis.setPatient(patient);
         diagnosis = diagnosisRepository.save(diagnosis);
@@ -82,9 +93,11 @@ public class DiagnosisServiceImpl implements IDiagnosisService {
         Diagnosis diagnosis = findDiagnosisById(id);
         User vet = findUserById(diagnosisRequestDTO.getVetId());
         Patient patient = findPatientById(diagnosisRequestDTO.getPatientId());
+        Clinic clinic = findClinicById(diagnosisRequestDTO.getClinicId());
         diagnosisMapper.updateDiagnosisFromRequestDTO(diagnosisRequestDTO, diagnosis);
         diagnosis.setVet(vet);
         diagnosis.setPatient(patient);
+        diagnosis.setClinic(clinic);
         if (diagnosis.getDiagnosis() == null || diagnosis.getDiagnosis().isEmpty()) {
             throw new BaseException(new ErrorMessage(MessageType.RECORD_UPDATE_UNSUCCESS,id.toString()));
         }
