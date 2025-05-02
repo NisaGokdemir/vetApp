@@ -37,10 +37,6 @@ public class PatientRequestDTO {
     @NotNull(message = "Irk ID'si boş olamaz.")
     private Long breedId;
 
-    @Future(message = "Bir sonraki kontrol tarihi gelecekte bir tarih olmalıdır.")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private LocalDateTime nextCheckup;
-
-    // @NotNull(message = "Takip gerekli mi alanı boş olamaz.")
-    // private Boolean followUpRequired;
+    @NotNull(message = "Aile ID'si boş olamaz.")
+    private Long familyId;
 }

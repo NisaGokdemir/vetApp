@@ -20,6 +20,13 @@ public class DiagnosisRequestDTO {
     @Size(min = 5, max = 255, message = "Diagnosis must be between 5 and 255 characters")
     private String diagnosis;
 
+    @NotBlank(message = "Clinic is required")
+    private Long clinicId;
+
     @NotBlank(message = "Treatment plan is required")
     private String treatmentPlan;
+
+    private String symptoms;
+
+    private String notes;
 }

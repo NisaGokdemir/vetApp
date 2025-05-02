@@ -6,7 +6,7 @@ import org.codewhiskers.vetapp.entity.*;
 import org.mapstruct.*;
 
 @Mapper(componentModel = "spring",
-        uses = {OwnerMapper.class, SpeciesMapper.class, BreedMapper.class, BloodTypeMapper.class})
+        uses = {OwnerMapper.class, SpeciesMapper.class, BreedMapper.class, BloodTypeMapper.class, FamilyMapper.class })
 public interface PatientMapper {
 
     PatientResponseDTO toPatientResponseDto(Patient patient);
@@ -16,7 +16,6 @@ public interface PatientMapper {
     @Mapping(target = "age", source = "dto.age")
     @Mapping(target = "weight", source = "dto.weight")
     @Mapping(target = "chipNumber", source = "dto.chipNumber")
-    @Mapping(target = "nextCheckup", source = "dto.nextCheckup")
     @Mapping(target = "bloodType", source = "bloodType")
     @Mapping(target = "owner", source = "owner")
     @Mapping(target = "species", source = "species")
@@ -32,7 +31,6 @@ public interface PatientMapper {
     @Mapping(target = "age", source = "dto.age")
     @Mapping(target = "weight", source = "dto.weight")
     @Mapping(target = "chipNumber", source = "dto.chipNumber")
-    @Mapping(target = "nextCheckup", source = "dto.nextCheckup")
     @Mapping(target = "bloodType", source = "bloodType")
     @Mapping(target = "owner", source = "owner")
     @Mapping(target = "species", source = "species")

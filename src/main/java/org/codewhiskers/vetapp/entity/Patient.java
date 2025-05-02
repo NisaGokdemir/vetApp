@@ -3,8 +3,6 @@ package org.codewhiskers.vetapp.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Table(name = "patients")
 @Getter
@@ -37,8 +35,8 @@ public class Patient {
     @JoinColumn(name = "breed_id")
     private Breed breed;
 
-    private LocalDateTime nextCheckup;
-    //private Boolean followUpRequired;
-
+    @ManyToOne
+    @JoinColumn(name = "clinic_id")
+    private Family family;
 
 }

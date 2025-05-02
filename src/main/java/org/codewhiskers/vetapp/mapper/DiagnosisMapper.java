@@ -6,7 +6,7 @@ import org.codewhiskers.vetapp.entity.Diagnosis;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
-@Mapper(componentModel = "spring", uses = {UserMapper.class, PatientMapper.class})
+@Mapper(componentModel = "spring", uses = {UserMapper.class, PatientMapper.class, ClinicMapper.class})
 public interface DiagnosisMapper {
 
     Diagnosis requestDTOToDiagnosis(DiagnosisRequestDTO diagnosis);

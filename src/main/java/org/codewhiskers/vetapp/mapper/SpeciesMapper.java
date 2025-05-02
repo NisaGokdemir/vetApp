@@ -5,7 +5,7 @@ import org.codewhiskers.vetapp.dto.Species.response.SpeciesResponseDTO;
 import org.codewhiskers.vetapp.entity.Species;
 import org.mapstruct.*;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {FamilyMapper.class})
 public interface SpeciesMapper {
 
     SpeciesResponseDTO toSpeciesResponseDto(Species species);

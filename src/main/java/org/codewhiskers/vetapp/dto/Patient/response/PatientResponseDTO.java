@@ -2,6 +2,7 @@ package org.codewhiskers.vetapp.dto.Patient.response;
 
 import lombok.Data;
 import org.codewhiskers.vetapp.dto.Breed.response.BreedResponseDTO;
+import org.codewhiskers.vetapp.dto.Family.response.FamilyResponseDTO;
 import org.codewhiskers.vetapp.dto.Owner.response.OwnerResponseDTO;
 import org.codewhiskers.vetapp.dto.Species.response.SpeciesResponseDTO;
 import org.codewhiskers.vetapp.dto.bloodType.response.BloodTypeResponseDTO;
@@ -20,6 +21,5 @@ public class PatientResponseDTO {
     private OwnerResponseDTO owner;
     private SpeciesResponseDTO species;
     private BreedResponseDTO breed;
-    private LocalDateTime nextCheckup;
-    // private Boolean followUpRequired;
+    private FamilyResponseDTO family;
 }
