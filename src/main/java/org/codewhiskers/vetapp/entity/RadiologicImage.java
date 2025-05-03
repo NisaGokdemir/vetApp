@@ -18,8 +18,8 @@ public class RadiologicImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
     private String testName;
-
     private String fileName;
     private String filePath;
 

@@ -25,7 +25,6 @@ public class PatientRequestDTO {
     @Size(min = 10, max = 20, message = "Çip numarası 10 ile 20 karakter arasında olmalıdır.")
     private String chipNumber;
 
-    @NotNull(message = "Kan tipi ID'si boş olamaz.")
     private Long bloodTypeId;
 
     @NotNull(message = "Sahip ID'si boş olamaz.")

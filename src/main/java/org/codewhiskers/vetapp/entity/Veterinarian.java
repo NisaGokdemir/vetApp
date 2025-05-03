@@ -14,8 +14,8 @@ public class Veterinarian {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String first_name;
-    private String last_name;
+    private String firstName;
+    private String lastName;
     private String phone;
     private String email;
     @Column(columnDefinition = "TEXT")
