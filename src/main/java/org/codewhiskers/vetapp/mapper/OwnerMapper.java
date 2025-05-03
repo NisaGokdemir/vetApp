@@ -5,7 +5,7 @@ import org.codewhiskers.vetapp.dto.Owner.response.OwnerResponseDTO;
 import org.codewhiskers.vetapp.entity.Owner;
 import org.mapstruct.*;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {UserMapper.class})
 public interface OwnerMapper {
 
     OwnerResponseDTO toOwnerResponseDto(Owner owner);

@@ -5,11 +5,13 @@ import lombok.RequiredArgsConstructor;
 import org.codewhiskers.vetapp.dto.Owner.request.OwnerRequestDTO;
 import org.codewhiskers.vetapp.dto.Owner.response.OwnerResponseDTO;
 import org.codewhiskers.vetapp.entity.Owner;
+import org.codewhiskers.vetapp.entity.User;
 import org.codewhiskers.vetapp.exception.BaseException;
 import org.codewhiskers.vetapp.exception.ErrorMessage;
 import org.codewhiskers.vetapp.exception.MessageType;
 import org.codewhiskers.vetapp.mapper.OwnerMapper;
 import org.codewhiskers.vetapp.repository.OwnerRepository;
+import org.codewhiskers.vetapp.repository.UserRepository;
 import org.codewhiskers.vetapp.service.IOwnerService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +23,7 @@ public class OwnerServiceImpl implements IOwnerService {
 
     private final OwnerRepository ownerRepository;
     private final OwnerMapper ownerMapper;
+    private final UserRepository userRepository;
 
     private Owner findOwnerById(Long id) {
         return ownerRepository.findById(id)
@@ -29,9 +32,20 @@ public class OwnerServiceImpl implements IOwnerService {
                 );
     }
 
+    private User findUserById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new BaseException(
+                        new ErrorMessage(MessageType.NO_RECORD_EXIST, "User ID: " + id))
+                );
+    }
+
     @Override
     public OwnerResponseDTO createOwner(OwnerRequestDTO ownerRequestDTO) {
         Owner owner = ownerMapper.toOwnerEntity(ownerRequestDTO);
+        if (ownerRequestDTO.getUserId() != null) {
+            User user = findUserById(ownerRequestDTO.getUserId());
+            owner.setUser(user);
+        }
         owner = ownerRepository.save(owner);
         return ownerMapper.toOwnerResponseDto(owner);
     }
@@ -58,6 +72,10 @@ public class OwnerServiceImpl implements IOwnerService {
     public OwnerResponseDTO updateOwner(Long id, OwnerRequestDTO ownerRequestDTO) {
         Owner owner = findOwnerById(id);
         ownerMapper.updateOwnerEntity(ownerRequestDTO, owner);
+        if (ownerRequestDTO.getUserId() != null) {
+            User user = findUserById(ownerRequestDTO.getUserId());
+            owner.setUser(user);
+        }
         owner = ownerRepository.save(owner);
         return ownerMapper.toOwnerResponseDto(owner);
     }

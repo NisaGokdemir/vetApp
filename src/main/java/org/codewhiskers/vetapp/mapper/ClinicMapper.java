@@ -9,7 +9,7 @@ import org.mapstruct.MappingTarget;
 @Mapper(componentModel = "spring")
 public interface ClinicMapper {
 
-    ClinicResponseDTO toClinicResponseDto(Clinic clinic);
     Clinic toClinicEntity(ClinicRequestDTO dto);
     void updateClinicEntity(ClinicRequestDTO dto, @MappingTarget Clinic clinic);
+    ClinicResponseDTO clinicToResponseDTO(Clinic clinic);
 }

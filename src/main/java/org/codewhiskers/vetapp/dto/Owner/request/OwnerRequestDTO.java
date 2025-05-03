@@ -29,7 +29,6 @@ public class OwnerRequestDTO {
 
     private String notes;
 
-    @NotBlank(message = "Kullanıcı boş olamaz.")
     private Long userId;
 
 }
