@@ -2,7 +2,6 @@ package org.codewhiskers.vetapp.enums;
 
 public enum RoleType {
     ROLE_ADMIN,
-    ROLE_VETERINARIAN,
-    ROLE_RECEPTIONIST
+    ROLE_VETERINARIAN
 }
 

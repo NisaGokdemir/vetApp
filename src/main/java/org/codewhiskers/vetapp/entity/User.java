@@ -43,6 +43,9 @@ public class User implements UserDetails {
     @JoinColumn(name = "clinic_id")
     private Clinic clinic;
 
+    @ManyToOne
+    private Specialization specialization;
+
     @Override public boolean isAccountNonExpired() { return true; }
     @Override public boolean isAccountNonLocked() { return true; }
     @Override public boolean isCredentialsNonExpired() { return true; }

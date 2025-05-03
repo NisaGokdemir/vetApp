@@ -16,6 +16,7 @@ import org.codewhiskers.vetapp.repository.DrugRepository;
 import org.codewhiskers.vetapp.repository.SpeciesRepository;
 import org.codewhiskers.vetapp.repository.UsageAreaRepository;
 import org.codewhiskers.vetapp.service.IDrugListService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class DrugListServiceImpl implements IDrugListService {
 
     private final DrugListRepository repository;
+    @Qualifier("drugListMapperImpl")
     private final DrugListMapper mapper;
     private final DrugRepository drugRepository;
     private final UsageAreaRepository usageAreaRepository;

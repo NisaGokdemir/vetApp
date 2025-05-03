@@ -37,20 +37,35 @@ public class AppSecurityConfig {
 
                 // 3) URL bazlı yetkilendirme:
                 .authorizeHttpRequests(auth -> auth
+                        // Auth ve Swagger endpointleri herkese açık
                         .requestMatchers("/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        
+                        // Klinik ve uzmanlık listeleri herkese açık
+                        .requestMatchers("/api/clinics/all", "/api/specializations/all").permitAll()
+                        
+                        // Sadece Admin yetkisi gerektiren endpointler
                         .requestMatchers("/api/users/**").hasRole("ADMIN")
-                        .requestMatchers("/api/specializations/all").permitAll()
+                        .requestMatchers("/api/clinics/**").hasRole("ADMIN")
                         .requestMatchers("/api/specializations/**").hasRole("ADMIN")
-                        .requestMatchers("/api/species/**").hasAnyRole("ADMIN","VETERINARIAN")
-                        .requestMatchers("/api/bloodTypes/**").hasAnyRole("ADMIN","VETERINARIAN")
-                        .requestMatchers("/api/breeds/**").hasAnyRole("ADMIN","VETERINARIAN")
-                        .requestMatchers("/api/diagnosis/**").hasAnyRole("ADMIN","VETERINARIAN")
-                        .requestMatchers("/api/prescriptions/**").hasAnyRole("ADMIN","VETERINARIAN")
-                        .requestMatchers("/api/prescription-items/**").hasAnyRole("ADMIN","VETERINARIAN")
-                        .requestMatchers("/api/medication/**").hasAnyRole("ADMIN","VETERINARIAN")
-                        .requestMatchers("/api/medication-batch/**").hasAnyRole("ADMIN","VETERINARIAN")
-                        .requestMatchers("/api/owners/**").hasAnyRole("ADMIN","VETERINARIAN", "RECEPTIONIST")
-                        .requestMatchers("/api/patients/**").hasAnyRole("ADMIN","VETERINARIAN", "RECEPTIONIST")
+                        .requestMatchers("/api/species/**").hasRole("ADMIN")
+                        .requestMatchers("/api/bloodTypes/**").hasRole("ADMIN")
+                        .requestMatchers("/api/breeds/**").hasRole("ADMIN")
+                        .requestMatchers("/api/drugs/**").hasRole("ADMIN")
+                        .requestMatchers("/api/drug-lists/**").hasRole("ADMIN")
+                        .requestMatchers("/api/drug-protocols/**").hasRole("ADMIN")
+                        .requestMatchers("/api/vaccinations/**").hasRole("ADMIN")
+                        .requestMatchers("/api/vaccination-batches/**").hasRole("ADMIN")
+                        .requestMatchers("/api/vaccination-inventory/**").hasRole("ADMIN")
+                        
+                        // Admin ve Veteriner yetkisi gerektiren endpointler
+                        .requestMatchers("/api/diagnosis/**").hasAnyRole("ADMIN", "VETERINARIAN")
+                        .requestMatchers("/api/owners/**").hasAnyRole("ADMIN", "VETERINARIAN")
+                        .requestMatchers("/api/patients/**").hasAnyRole("ADMIN", "VETERINARIAN")
+                        .requestMatchers("/api/families/**").hasAnyRole("ADMIN", "VETERINARIAN")
+                        .requestMatchers("/api/prescriptions/**").hasAnyRole("ADMIN", "VETERINARIAN")
+                        .requestMatchers("/api/prescription-items/**").hasAnyRole("ADMIN", "VETERINARIAN")
+                        .requestMatchers("/api/medication/**").hasAnyRole("ADMIN", "VETERINARIAN")
+                        .requestMatchers("/api/medication-batch/**").hasAnyRole("ADMIN", "VETERINARIAN")
 
                         // Diğer tüm yollar için doğrulanmış kullanıcı gerekiyor
                         .anyRequest().authenticated()

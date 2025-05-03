@@ -26,4 +26,5 @@ UserRequestDTO {
     @JsonProperty("specialization_id")
     private Long specializationId;
 
+
 }

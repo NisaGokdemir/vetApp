@@ -72,8 +72,7 @@ public class RestAuthController {
         Clinic clinic = findClinicById(userRequestDTO.getClinicId());
         Specialization specialization = findSpecializationById(userRequestDTO.getSpecializationId());
         
-        User user = userMapper.requestDTOToUser(userRequestDTO, clinic);
-        user.setSpecialization(specialization);
+        User user = userMapper.requestDTOToUser(userRequestDTO, clinic, specialization);
 
         if(user.getUsername() == null || user.getUsername().isEmpty()) {
             throw new BaseException(new ErrorMessage(MessageType.RECORD_CREATE_UNSUCCESS,""));
@@ -81,10 +80,10 @@ public class RestAuthController {
 
         user.setPassword(passwordEncoder.encode(userRequestDTO.getPassword()));
 
-        // 🌟 Varsayılan olarak ROLE_RECEPTIONIST ata
-        Role defaultRole = roleRepository.findByName(RoleType.ROLE_RECEPTIONIST)
+        // 🌟 Varsayılan olarak ROLE_VETERINARIAN ata
+        Role defaultRole = roleRepository.findByName(RoleType.ROLE_VETERINARIAN)
                 .orElseThrow(() -> new BaseException(
-                        new ErrorMessage(MessageType.NO_RECORD_EXIST, "role: ROLE_RECEPTIONIST")
+                        new ErrorMessage(MessageType.NO_RECORD_EXIST, "role: ROLE_VETERINARIAN")
                 ));
         user.setRoles(Set.of(defaultRole));
 
