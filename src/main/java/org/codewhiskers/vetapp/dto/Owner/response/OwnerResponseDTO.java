@@ -14,5 +14,4 @@ public class OwnerResponseDTO {
     private String address;
     private String debt;
     private String notes;
-    private UserResponseDTO user;
 }

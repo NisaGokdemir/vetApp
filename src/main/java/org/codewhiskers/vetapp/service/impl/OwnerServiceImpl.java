@@ -23,7 +23,6 @@ public class OwnerServiceImpl implements IOwnerService {
 
     private final OwnerRepository ownerRepository;
     private final OwnerMapper ownerMapper;
-    private final UserRepository userRepository;
 
     private Owner findOwnerById(Long id) {
         return ownerRepository.findById(id)
@@ -32,20 +31,10 @@ public class OwnerServiceImpl implements IOwnerService {
                 );
     }
 
-    private User findUserById(Long id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new BaseException(
-                        new ErrorMessage(MessageType.NO_RECORD_EXIST, "User ID: " + id))
-                );
-    }
-
     @Override
     public OwnerResponseDTO createOwner(OwnerRequestDTO ownerRequestDTO) {
         Owner owner = ownerMapper.toOwnerEntity(ownerRequestDTO);
-        if (ownerRequestDTO.getUserId() != null) {
-            User user = findUserById(ownerRequestDTO.getUserId());
-            owner.setUser(user);
-        }
+
         owner = ownerRepository.save(owner);
         return ownerMapper.toOwnerResponseDto(owner);
     }
@@ -72,10 +61,7 @@ public class OwnerServiceImpl implements IOwnerService {
     public OwnerResponseDTO updateOwner(Long id, OwnerRequestDTO ownerRequestDTO) {
         Owner owner = findOwnerById(id);
         ownerMapper.updateOwnerEntity(ownerRequestDTO, owner);
-        if (ownerRequestDTO.getUserId() != null) {
-            User user = findUserById(ownerRequestDTO.getUserId());
-            owner.setUser(user);
-        }
+
         owner = ownerRepository.save(owner);
         return ownerMapper.toOwnerResponseDto(owner);
     }

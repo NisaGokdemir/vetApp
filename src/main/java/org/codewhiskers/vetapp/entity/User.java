@@ -39,6 +39,9 @@ public class User implements UserDetails {
                 .toList();
     }
 
+    @ManyToOne
+    @JoinColumn(name = "clinic_id")
+    private Clinic clinic;
 
     @Override public boolean isAccountNonExpired() { return true; }
     @Override public boolean isAccountNonLocked() { return true; }

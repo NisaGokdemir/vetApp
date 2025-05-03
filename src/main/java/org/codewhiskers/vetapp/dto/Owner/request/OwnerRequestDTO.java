@@ -28,7 +28,4 @@ public class OwnerRequestDTO {
     private String debt;
 
     private String notes;
-
-    private Long userId;
-
 }

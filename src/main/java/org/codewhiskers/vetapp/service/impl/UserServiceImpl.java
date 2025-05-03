@@ -3,12 +3,14 @@ package org.codewhiskers.vetapp.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.codewhiskers.vetapp.dto.User.request.UserRequestDTO;
 import org.codewhiskers.vetapp.dto.User.response.UserResponseDTO;
+import org.codewhiskers.vetapp.entity.Clinic;
 import org.codewhiskers.vetapp.entity.Specialization;
 import org.codewhiskers.vetapp.entity.User;
 import org.codewhiskers.vetapp.exception.BaseException;
 import org.codewhiskers.vetapp.exception.ErrorMessage;
 import org.codewhiskers.vetapp.exception.MessageType;
 import org.codewhiskers.vetapp.mapper.UserMapper;
+import org.codewhiskers.vetapp.repository.ClinicRepository;
 import org.codewhiskers.vetapp.repository.SpecializationRepository;
 import org.codewhiskers.vetapp.repository.UserRepository;
 import org.codewhiskers.vetapp.service.IUserService;
@@ -23,6 +25,7 @@ public class UserServiceImpl implements IUserService {
     private final UserRepository userRepository;
     private final SpecializationRepository specializationRepository;
     private final UserMapper userMapper;
+    private final ClinicRepository clinicRepository;
 
     private Specialization findSpecializationById(Long id) {
         return specializationRepository.findById(id).orElseThrow(
@@ -32,6 +35,12 @@ public class UserServiceImpl implements IUserService {
 
     private User findUserById(Long id) {
         return userRepository.findById(id).orElseThrow(
+                () -> new BaseException(new ErrorMessage(MessageType.NO_RECORD_EXIST,id.toString()))
+        );
+    }
+
+    private Clinic findClinicById(Long id) {
+        return clinicRepository.findById(id).orElseThrow(
                 () -> new BaseException(new ErrorMessage(MessageType.NO_RECORD_EXIST,id.toString()))
         );
     }
@@ -53,8 +62,9 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public UserResponseDTO createUser(UserRequestDTO userRequestDTO) {
-
-        User user = userMapper.requestDTOToUser(userRequestDTO);
+        Clinic clinic = findClinicById(userRequestDTO.getClinicId());
+        User user = userMapper.requestDTOToUser(userRequestDTO, clinic);
+        
         if(user.getUsername() == null || user.getUsername().isEmpty()) {
             throw new BaseException(new ErrorMessage(MessageType.RECORD_CREATE_UNSUCCESS,""));
         }
@@ -65,7 +75,8 @@ public class UserServiceImpl implements IUserService {
     @Override
     public UserResponseDTO updateUser(Long id, UserRequestDTO userRequestDTO) {
         User user = findUserById(id);
-        userMapper.updateUserFromRequestDTO(userRequestDTO, user);
+        Clinic clinic = findClinicById(userRequestDTO.getClinicId());
+        userMapper.updateUserFromRequestDTO(userRequestDTO, user, clinic);
         user = userRepository.save(user);
         if (user.getUsername() == null || user.getUsername().isEmpty()) {
             throw new BaseException(new ErrorMessage(MessageType.RECORD_UPDATE_UNSUCCESS,id.toString()));

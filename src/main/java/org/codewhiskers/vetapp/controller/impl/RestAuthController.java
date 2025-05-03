@@ -2,6 +2,7 @@ package org.codewhiskers.vetapp.controller.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.codewhiskers.vetapp.dto.User.request.UserRequestDTO;
+import org.codewhiskers.vetapp.entity.Clinic;
 import org.codewhiskers.vetapp.entity.RefreshToken;
 import org.codewhiskers.vetapp.entity.Role;
 import org.codewhiskers.vetapp.entity.Specialization;
@@ -15,6 +16,7 @@ import org.codewhiskers.vetapp.jwt.AuthResponse;
 import org.codewhiskers.vetapp.jwt.JwtService;
 import org.codewhiskers.vetapp.jwt.RefreshTokenRequest;
 import org.codewhiskers.vetapp.mapper.UserMapper;
+import org.codewhiskers.vetapp.repository.ClinicRepository;
 import org.codewhiskers.vetapp.repository.RoleRepository;
 import org.codewhiskers.vetapp.repository.SpecializationRepository;
 import org.codewhiskers.vetapp.repository.UserRepository;
@@ -43,6 +45,7 @@ public class RestAuthController {
     private final UserMapper userMapper;
     private final RefreshTokenServiceImpl refreshTokenService;
     private final RoleRepository roleRepository;
+    private final ClinicRepository clinicRepository;
 
     private Specialization findSpecializationById(Long id) {
         return specializationRepository.findById(id).orElseThrow(
@@ -50,9 +53,27 @@ public class RestAuthController {
         );
     }
 
+    private Clinic findClinicById(Long id) {
+        return clinicRepository.findById(id).orElseThrow(
+                () -> new BaseException(new ErrorMessage(MessageType.NO_RECORD_EXIST,id.toString()))
+        );
+    }
+
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserRequestDTO userRequestDTO) {
-        User user = userMapper.requestDTOToUser(userRequestDTO);
+        if (userRequestDTO.getClinicId() == null) {
+            throw new BaseException(new ErrorMessage(MessageType.RECORD_CREATE_UNSUCCESS, "Klinik ID boş olamaz."));
+        }
+        
+        if (userRequestDTO.getSpecializationId() == null) {
+            throw new BaseException(new ErrorMessage(MessageType.RECORD_CREATE_UNSUCCESS, "Uzmanlık ID boş olamaz."));
+        }
+
+        Clinic clinic = findClinicById(userRequestDTO.getClinicId());
+        Specialization specialization = findSpecializationById(userRequestDTO.getSpecializationId());
+        
+        User user = userMapper.requestDTOToUser(userRequestDTO, clinic);
+        user.setSpecialization(specialization);
 
         if(user.getUsername() == null || user.getUsername().isEmpty()) {
             throw new BaseException(new ErrorMessage(MessageType.RECORD_CREATE_UNSUCCESS,""));
@@ -86,7 +107,12 @@ public class RestAuthController {
         String jwtToken = jwtService.generateToken(user);
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(user);
 
-        return ResponseEntity.ok(new AuthResponse(jwtToken, refreshToken.getRefreshToken()));
+        return ResponseEntity.ok(new AuthResponse(
+            jwtToken, 
+            refreshToken.getRefreshToken(), 
+            user.getClinic().getId(),
+            user.getSpecialization() != null ? user.getSpecialization().getId() : null
+        ));
     }
 
 
@@ -98,6 +124,11 @@ public class RestAuthController {
         User user = token.getUser();
 
         String newAccessToken = jwtService.generateToken(user);
-        return ResponseEntity.ok(new AuthResponse(newAccessToken, refreshTokenStr));
+        return ResponseEntity.ok(new AuthResponse(
+            newAccessToken, 
+            refreshTokenStr, 
+            user.getClinic().getId(),
+            user.getSpecialization() != null ? user.getSpecialization().getId() : null
+        ));
     }
 }

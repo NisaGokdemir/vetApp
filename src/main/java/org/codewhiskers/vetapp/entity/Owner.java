@@ -23,8 +23,4 @@ public class Owner {
     private String address;
     private String debt;
     private String notes;
-
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 }
