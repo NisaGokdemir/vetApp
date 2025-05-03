@@ -41,7 +41,7 @@ public class BloodTypeServiceImpl implements IBloodTypeService {
 
     @Transactional
     @Override
-    public BloodTypeResponseDTO createBloodType(BloodTypeRequestDTO bloodTypeRequestDTO) {
+    public BloodTypeResponseDTO create(BloodTypeRequestDTO bloodTypeRequestDTO) {
         Species species = findSpeciesById(bloodTypeRequestDTO.getSpeciesId());
         BloodType bloodType = bloodTypeMapper.toBloodTypeEntity(bloodTypeRequestDTO, species);
         bloodType = bloodTypeRepository.save(bloodType);
@@ -49,13 +49,13 @@ public class BloodTypeServiceImpl implements IBloodTypeService {
     }
 
     @Override
-    public BloodTypeResponseDTO getBloodTypeById(Long id) {
+    public BloodTypeResponseDTO getById(Long id) {
         BloodType bloodType = findBloodTypeById(id);
         return bloodTypeMapper.toBloodTypeResponseDto(bloodType);
     }
 
     @Override
-    public Page<BloodTypeResponseDTO> getAllBloodTypes(Pageable pageable) {
+    public Page<BloodTypeResponseDTO> getAll(Pageable pageable) {
         Page<BloodType> page = bloodTypeRepository.findAll(pageable);
         if (page.isEmpty()) {
             throw new BaseException(new ErrorMessage(MessageType.RECORDS_NOT_FOUND, "No bloodTypes Found"));
@@ -65,7 +65,7 @@ public class BloodTypeServiceImpl implements IBloodTypeService {
 
     @Transactional
     @Override
-    public BloodTypeResponseDTO updateBloodType(Long id, BloodTypeRequestDTO bloodTypeRequestDTO) {
+    public BloodTypeResponseDTO update(Long id, BloodTypeRequestDTO bloodTypeRequestDTO) {
         Species species = findSpeciesById(bloodTypeRequestDTO.getSpeciesId());
         BloodType bloodType = findBloodTypeById(id);
         bloodTypeMapper.updateBloodTypeEntity(bloodTypeRequestDTO, bloodType, species);
@@ -75,7 +75,7 @@ public class BloodTypeServiceImpl implements IBloodTypeService {
 
     @Transactional
     @Override
-    public void deleteBloodType(Long id) {
+    public void delete(Long id) {
         BloodType bloodType = findBloodTypeById(id);
         bloodTypeRepository.delete(bloodType);
     }

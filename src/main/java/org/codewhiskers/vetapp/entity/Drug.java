@@ -4,11 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "vaccinations")
+@Table(name = "drugs")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
-public class Vaccination {
+public class Drug {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String vaccinationUnit; // Örn: mL veya doz
 }

@@ -22,36 +22,36 @@ public class RestBloodTypeController implements IRestBloodTypeController {
 
     @PostMapping
     @Override
-    public ResponseEntity<BloodTypeResponseDTO> createBloodType(@RequestBody @Valid BloodTypeRequestDTO bloodTypeRequestDTO) {
-        BloodTypeResponseDTO response = service.createBloodType(bloodTypeRequestDTO);
+    public ResponseEntity<BloodTypeResponseDTO> create(@RequestBody @Valid BloodTypeRequestDTO bloodTypeRequestDTO) {
+        BloodTypeResponseDTO response = service.create(bloodTypeRequestDTO);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
     @Override
-    public ResponseEntity<BloodTypeResponseDTO> getBloodTypeById(@PathVariable Long id) {
-        BloodTypeResponseDTO response = service.getBloodTypeById(id);
+    public ResponseEntity<BloodTypeResponseDTO> getById(@PathVariable Long id) {
+        BloodTypeResponseDTO response = service.getById(id);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping
     @Override
-    public ResponseEntity<Page<BloodTypeResponseDTO>> getAllBloodTypes(Pageable pageable) {
-        Page<BloodTypeResponseDTO> response = service.getAllBloodTypes(pageable);
+    public ResponseEntity<Page<BloodTypeResponseDTO>> getAll(Pageable pageable) {
+        Page<BloodTypeResponseDTO> response = service.getAll(pageable);
         return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")
     @Override
-    public ResponseEntity<BloodTypeResponseDTO> updateBloodType(@PathVariable Long id, @RequestBody @Valid BloodTypeRequestDTO bloodTypeRequestDTO) {
-        BloodTypeResponseDTO response = service.updateBloodType(id, bloodTypeRequestDTO);
+    public ResponseEntity<BloodTypeResponseDTO> update(@PathVariable Long id, @RequestBody @Valid BloodTypeRequestDTO bloodTypeRequestDTO) {
+        BloodTypeResponseDTO response = service.update(id, bloodTypeRequestDTO);
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
     @Override
-    public ResponseEntity<Void> deleteBloodType(@PathVariable Long id) {
-        service.deleteBloodType(id);
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.delete(id);
         return ResponseEntity.noContent().build();  // 204 No Content
     }
 }

@@ -1,10 +1,12 @@
 package org.codewhiskers.vetapp.service;
 
+import org.codewhiskers.vetapp.common.service.IGenericService;
 import org.codewhiskers.vetapp.dto.Species.request.SpeciesRequestDTO;
 import org.codewhiskers.vetapp.dto.Species.response.SpeciesResponseDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+/*
 public interface ISpeciesService {
 
     SpeciesResponseDTO createSpecies(SpeciesRequestDTO speciesRequestDTO);
@@ -16,4 +18,8 @@ public interface ISpeciesService {
     SpeciesResponseDTO updateSpecies(Long id, SpeciesRequestDTO speciesRequestDTO);
 
     void deleteSpecies(Long id);
+}
+*/
+
+public interface ISpeciesService extends IGenericService<SpeciesRequestDTO, SpeciesResponseDTO, Long> {
 }

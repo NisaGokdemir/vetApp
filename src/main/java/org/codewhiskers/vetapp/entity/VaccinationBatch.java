@@ -1,5 +1,4 @@
 package org.codewhiskers.vetapp.entity;
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -7,24 +6,21 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "medication_batches")
+@Table(name = "vaccination_batches")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
-public class MedicationBatch {
+public class VaccinationBatch {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "medication_id")
-    private Medication medication;
+    @JoinColumn(name = "vaccination_id")
+    private Vaccination vaccination;
 
     @ManyToOne
-    @JoinColumn(name = "drug_id")
-    private Drug drug;
+    @JoinColumn(name = "vaccination_inventory_id")
+    private VaccinationInventory vaccinationInventory;
 
-    @ManyToOne
-    @JoinColumn(name = "clinic_id")
-    private Clinic clinic;
-
+    private Long clinicId;
     private String batchNo;
     private LocalDate expiryDate;
     private Integer quantity;

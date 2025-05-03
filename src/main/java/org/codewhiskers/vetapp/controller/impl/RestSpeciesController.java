@@ -22,37 +22,37 @@ public class RestSpeciesController implements IRestSpeciesController {
 
     @Override
     @PostMapping
-    public ResponseEntity<SpeciesResponseDTO> createSpecies(@RequestBody @Valid SpeciesRequestDTO speciesRequestDTO) {
-        SpeciesResponseDTO response = speciesService.createSpecies(speciesRequestDTO);
+    public ResponseEntity<SpeciesResponseDTO> create(@RequestBody @Valid SpeciesRequestDTO speciesRequestDTO) {
+        SpeciesResponseDTO response = speciesService.create(speciesRequestDTO);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @Override
     @GetMapping("/{id}")
-    public ResponseEntity<SpeciesResponseDTO> getSpeciesById(@PathVariable Long id) {
-        SpeciesResponseDTO response = speciesService.getSpeciesById(id);
+    public ResponseEntity<SpeciesResponseDTO> getById(@PathVariable Long id) {
+        SpeciesResponseDTO response = speciesService.getById(id);
         return ResponseEntity.ok(response);
     }
 
     @Override
     @GetMapping
-    public ResponseEntity<Page<SpeciesResponseDTO>> getAllSpecies(Pageable pageable) {
-        Page<SpeciesResponseDTO> response = speciesService.getAllSpecies(pageable);
+    public ResponseEntity<Page<SpeciesResponseDTO>> getAll(Pageable pageable) {
+        Page<SpeciesResponseDTO> response = speciesService.getAll(pageable);
         return ResponseEntity.ok(response);
     }
 
     @Override
     @PutMapping("/{id}")
-    public ResponseEntity<SpeciesResponseDTO> updateSpecies(@PathVariable Long id,
+    public ResponseEntity<SpeciesResponseDTO> update(@PathVariable Long id,
                                                             @RequestBody @Valid SpeciesRequestDTO speciesRequestDTO) {
-        SpeciesResponseDTO response = speciesService.updateSpecies(id, speciesRequestDTO);
+        SpeciesResponseDTO response = speciesService.update(id, speciesRequestDTO);
         return ResponseEntity.ok(response);
     }
 
     @Override
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSpecies(@PathVariable Long id) {
-        speciesService.deleteSpecies(id);
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        speciesService.delete(id);
         return ResponseEntity.noContent().build(); // 204 No Content
     }
 }

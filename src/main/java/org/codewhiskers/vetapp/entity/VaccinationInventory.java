@@ -4,20 +4,19 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "medications")
+@Table(name = "vaccination_inventory")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
-public class Medication {
+public class VaccinationInventory {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "drug_id")
-    private Drug drug;
+    @JoinColumn(name = "vaccination_id")
+    private Vaccination vaccination;
 
     @ManyToOne
     @JoinColumn(name = "clinic_id")
     private Clinic clinic;
 
-    private Integer totalQuantity; // Toplam miktar (adet)
-    private Integer stockWarningLevel; // Kritik stok seviyesi
+    private Integer stockWarningLevel;
 }

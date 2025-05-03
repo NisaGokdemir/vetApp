@@ -55,9 +55,12 @@ public class MedicationServiceImpl implements IMedicationService {
     public MedicationResponseDTO createMedication(MedicationRequestDTO medicationRequestDTO) {
         Medication medication = medicationMapper.requestDTOToMedication(medicationRequestDTO);
         medicationRepository.save(medication);
+        /*
         if(medication.getName() == null || medication.getName().isEmpty()){
             throw new BaseException(new ErrorMessage(MessageType.RECORD_CREATE_UNSUCCESS,medication.getName()));
         }
+        
+         */
         return medicationMapper.medicationToResponseDTO(medication);
     }
 
@@ -66,9 +69,12 @@ public class MedicationServiceImpl implements IMedicationService {
         Medication medication = findMedicationById(id);
         medicationMapper.updateMedicationFromRequestDTO(requestDTO, medication);
         medicationRepository.save(medication);
+        /*
         if(medication.getName() == null || medication.getName().isEmpty()){
             throw new BaseException(new ErrorMessage(MessageType.RECORD_UPDATE_UNSUCCESS,medication.getName()));
         }
+
+         */
         return medicationMapper.medicationToResponseDTO(medication);
     }
 }

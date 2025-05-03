@@ -40,7 +40,7 @@ public class SpeciesServiceImpl implements ISpeciesService {
     }
 
     @Override
-    public SpeciesResponseDTO createSpecies(SpeciesRequestDTO speciesRequestDTO) {
+    public SpeciesResponseDTO create(SpeciesRequestDTO speciesRequestDTO) {
         Species species = speciesMapper.toSpeciesEntity(speciesRequestDTO);
         Family family = findFamilyById(speciesRequestDTO.getFamilyId());
         species.setFamily(family);
@@ -49,12 +49,12 @@ public class SpeciesServiceImpl implements ISpeciesService {
     }
 
     @Override
-    public SpeciesResponseDTO getSpeciesById(Long id) {
+    public SpeciesResponseDTO getById(Long id) {
         return speciesMapper.toSpeciesResponseDto(findSpeciesById(id));
     }
 
     @Override
-    public Page<SpeciesResponseDTO> getAllSpecies(Pageable pageable) {
+    public Page<SpeciesResponseDTO> getAll(Pageable pageable) {
         Page<Species> page = speciesRepository.findAll(pageable);
         if (page.isEmpty()) {
             throw new BaseException(new ErrorMessage(MessageType.RECORDS_NOT_FOUND, "Species"));
@@ -64,7 +64,7 @@ public class SpeciesServiceImpl implements ISpeciesService {
 
     @Transactional
     @Override
-    public SpeciesResponseDTO updateSpecies(Long id, SpeciesRequestDTO speciesRequestDTO) {
+    public SpeciesResponseDTO update(Long id, SpeciesRequestDTO speciesRequestDTO) {
         Species species = findSpeciesById(id);
         Family family = findFamilyById(speciesRequestDTO.getFamilyId());
         species.setFamily(family);
@@ -75,7 +75,7 @@ public class SpeciesServiceImpl implements ISpeciesService {
 
     @Transactional
     @Override
-    public void deleteSpecies(Long id) {
+    public void delete(Long id) {
         Species species = findSpeciesById(id); // kayıt var mı kontrolü burada
         speciesRepository.delete(species);
     }

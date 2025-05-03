@@ -4,9 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "medications")
+@Table(name = "drug_protocols")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
-public class Medication {
+public class DrugProtocol {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -15,9 +15,11 @@ public class Medication {
     private Drug drug;
 
     @ManyToOne
-    @JoinColumn(name = "clinic_id")
-    private Clinic clinic;
+    @JoinColumn(name = "species_id")
+    private Species species;
 
-    private Integer totalQuantity; // Toplam miktar (adet)
-    private Integer stockWarningLevel; // Kritik stok seviyesi
+    private Integer minAge; // ay cinsinden minimum yaş
+    private Double maxDoseMgKg; // Örn: 10 mg/kg
+    private String frequency; // Örn: Günde 2 kez
+    private String notes;
 }
