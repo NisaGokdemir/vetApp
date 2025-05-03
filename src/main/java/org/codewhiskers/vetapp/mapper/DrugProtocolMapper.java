@@ -9,7 +9,7 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = {DrugMapper.class, SpeciesMapper.class})
 public interface DrugProtocolMapper {
 
-    DrugProtocolResponseDTO toResponseDTO(DrugProtocol protocol);
+    DrugProtocolResponseDTO toDto(DrugProtocol protocol);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "drug", source = "drug")
@@ -19,5 +19,5 @@ public interface DrugProtocolMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "drug", source = "drug")
     @Mapping(target = "species", source = "species")
-    void updateEntity(DrugProtocolRequestDTO dto, @MappingTarget DrugProtocol protocol, Drug drug, Species species);
+    void toUpdateEntity(DrugProtocolRequestDTO dto, @MappingTarget DrugProtocol protocol, Drug drug, Species species);
 }

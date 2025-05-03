@@ -1,28 +1,37 @@
 package org.codewhiskers.vetapp.dto.MedicationBatch.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
 public class MedicationBatchRequestDTO {
 
-    @NotNull(message = "medicationId date is required")
+    // Eğer medicationId dışarıdan sağlanması gereken bir ID ise @NotNull kalmalı.
+    // Aksi takdirde, bu satırı kaldırabiliriz.
+    @NotNull(message = "Medication ID zorunludur.")
     private Long medicationId;
 
-    @NotNull(message = "quantity date is required")
+    @NotNull(message = "İlaç ID zorunludur.")
+    private Long drugId;
+
+    @NotNull(message = "Klinik ID zorunludur.")
+    private Long clinicId;
+
+    @NotNull(message = "Miktar zorunludur.")
+    @Min(value = 1, message = "Miktar en az 1 olmalıdır.")
     private Integer quantity;
 
-    @NotNull(message = "Expiry date is required")
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime expiryDate;
+    @NotNull(message = "Son kullanma tarihi zorunludur.")
+    @JsonFormat(pattern = "yyyy-MM-dd") // LocalDate için sadece tarih formatı yeterli
+    private LocalDate expiryDate;
 
-    @NotNull(message = "received date is required")
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime receivedDate;
+    @NotNull(message = "Alım tarihi zorunludur.")
+    @JsonFormat(pattern = "yyyy-MM-dd") // LocalDate için sadece tarih formatı yeterli
+    private LocalDate receivedDate;
 }

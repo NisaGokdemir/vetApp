@@ -20,7 +20,10 @@ public class VaccinationBatch {
     @JoinColumn(name = "vaccination_inventory_id")
     private VaccinationInventory vaccinationInventory;
 
-    private Long clinicId;
+    @ManyToOne
+    @JoinColumn(name = "clinic_id")
+    private Clinic clinic;
+
     private String batchNo;
     private LocalDate expiryDate;
     private Integer quantity;

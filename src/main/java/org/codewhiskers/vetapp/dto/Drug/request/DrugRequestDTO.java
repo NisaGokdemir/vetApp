@@ -1,13 +1,14 @@
 package org.codewhiskers.vetapp.dto.Drug.request;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class DrugRequestDTO {
-
-    @NotBlank(message = "İlaç ismi boş olamaz.")
+    @NotBlank(message = "İlaç adı boş olamaz")
     private String name;
 }

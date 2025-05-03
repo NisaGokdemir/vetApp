@@ -8,60 +8,49 @@ import org.codewhiskers.vetapp.dto.MedicationBatch.response.MedicationBatchRespo
 import org.codewhiskers.vetapp.service.IMedicationBatchService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api/v1/medication-batches")
 @RequiredArgsConstructor
-@RequestMapping("/api/medication-batch")
 public class RestMedicationBatchController implements IRestMedicationBatchController {
-     private final IMedicationBatchService medicationBatchService;
 
-     @GetMapping("/all")
-     @Override
-     public ResponseEntity<Page<MedicationBatchResponseDTO>> getAllMedicationBatch(Pageable pageable) {
-         Page<MedicationBatchResponseDTO> medicationBatches = medicationBatchService.getAllMedicationBatch(pageable);
-            if (medicationBatches.isEmpty()) {
-                return ResponseEntity.noContent().build();
-            }
-         return ResponseEntity.ok(medicationBatches);
-     }
+    private final IMedicationBatchService service;
 
-     @GetMapping("/find/{id}")
-     @Override
-     public ResponseEntity<MedicationBatchResponseDTO> getMedicationBatch(@PathVariable Long id) {
-         MedicationBatchResponseDTO medicationBatch = medicationBatchService.getMedicationBatch(id);
-            if (medicationBatch == null) {
-                return ResponseEntity.notFound().build();
-            }
-         return ResponseEntity.ok(medicationBatch);
-     }
+    @PostMapping
+    @Override
+    public ResponseEntity<MedicationBatchResponseDTO> create(@RequestBody @Valid MedicationBatchRequestDTO requestDTO) {
+        MedicationBatchResponseDTO createdBatch = service.create(requestDTO);
+        return new ResponseEntity<>(createdBatch, HttpStatus.CREATED);
+    }
 
-     @PostMapping("/create")
-     @Override
-     public ResponseEntity<MedicationBatchResponseDTO> createMedicationBatch(@RequestBody @Valid MedicationBatchRequestDTO medicationBatchRequestDTO) {
-         MedicationBatchResponseDTO createdMedicationBatch = medicationBatchService.createMedicationBatch(medicationBatchRequestDTO);
-            if (createdMedicationBatch == null) {
-                return ResponseEntity.badRequest().build();
-            }
-         return ResponseEntity.ok(createdMedicationBatch);
-     }
+    @GetMapping("/{id}")
+    @Override
+    public ResponseEntity<MedicationBatchResponseDTO> getById(@PathVariable Long id) {
+        MedicationBatchResponseDTO batch = service.getById(id);
+        return ResponseEntity.ok(batch);
+    }
 
-     @PutMapping("/update/{id}")
-     @Override
-     public ResponseEntity<MedicationBatchResponseDTO> updateMedicationBatch(@PathVariable Long id, @RequestBody @Valid MedicationBatchRequestDTO medicationBatchRequestDTO) {
-         MedicationBatchResponseDTO updatedMedicationBatch = medicationBatchService.updateMedicationBatch(id, medicationBatchRequestDTO);
-            if (updatedMedicationBatch == null) {
-                return ResponseEntity.notFound().build();
-            }
-         return ResponseEntity.ok(updatedMedicationBatch);
-     }
+    @GetMapping
+    @Override
+    public ResponseEntity<Page<MedicationBatchResponseDTO>> getAll(Pageable pageable) {
+        Page<MedicationBatchResponseDTO> batches = service.getAll(pageable);
+        return ResponseEntity.ok(batches);
+    }
 
-     @DeleteMapping("/delete/{id}")
-     @Override
-     public void deleteMedicationBatch(@PathVariable Long id) {
-         medicationBatchService.deleteMedicationBatch(id);
-         ResponseEntity.ok().build();
-     }
+    @PutMapping("/{id}")
+    @Override
+    public ResponseEntity<MedicationBatchResponseDTO> update(@PathVariable Long id, @RequestBody @Valid MedicationBatchRequestDTO requestDTO) {
+        MedicationBatchResponseDTO updatedBatch = service.update(id, requestDTO);
+        return ResponseEntity.ok(updatedBatch);
+    }
 
+    @DeleteMapping("/{id}")
+    @Override
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
