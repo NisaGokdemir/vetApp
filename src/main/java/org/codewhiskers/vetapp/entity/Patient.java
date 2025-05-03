@@ -3,6 +3,8 @@ package org.codewhiskers.vetapp.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "patients")
 @Getter
@@ -16,6 +18,8 @@ public class Patient {
     private Long id;
     private String name;
     private Integer age;
+    private LocalDate dateOfBirth;
+    private String sex;
     private Double weight;
     private String chipNumber;
 

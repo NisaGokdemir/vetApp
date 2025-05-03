@@ -9,9 +9,11 @@ import lombok.Data;
 @Data
 public class OwnerRequestDTO {
 
-    @NotBlank(message = "Ad Soyad boş olamaz.")
-    @Size(min = 5, max = 100, message = "Ad Soyad 5 ile 100 karakter arasında olmalıdır.")
-    private String fullName;
+    @NotBlank(message = "Ad boş olamaz.")
+    private String firstName;
+
+    @NotBlank(message = "Soyad boş olamaz.")
+    private String lastName;
 
     @NotBlank(message = "Telefon numarası boş olamaz.")
     @Pattern(regexp = "^(05)([0-9]{9})$", message = "Geçerli bir Türkiye telefon numarası formatında olmalıdır (örneğin: 05xxxxxxxxx).")
@@ -22,4 +24,12 @@ public class OwnerRequestDTO {
 
     @Size(max = 255, message = "Adres en fazla 255 karakter olabilir.")
     private String address;
+
+    private String debt;
+
+    private String notes;
+
+    @NotBlank(message = "Kullanıcı boş olamaz.")
+    private Long userId;
+
 }

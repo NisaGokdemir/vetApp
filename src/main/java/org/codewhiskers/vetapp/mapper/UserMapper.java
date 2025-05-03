@@ -7,13 +7,11 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-@Mapper(componentModel = "spring", uses = {SpecializationMapper.class})
+@Mapper(componentModel = "spring")
 public interface UserMapper {
     UserResponseDTO userToResponseDTO(User user);
 
-    @Mapping(target = "specialization", ignore = true)
     User requestDTOToUser(UserRequestDTO userRequestDTO);
 
-    @Mapping(target = "specialization", ignore = true)
     void updateUserFromRequestDTO(UserRequestDTO userRequestDTO, @MappingTarget User user);
 }

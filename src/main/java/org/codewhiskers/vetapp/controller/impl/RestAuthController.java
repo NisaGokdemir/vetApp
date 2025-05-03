@@ -53,8 +53,6 @@ public class RestAuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserRequestDTO userRequestDTO) {
         User user = userMapper.requestDTOToUser(userRequestDTO);
-        Specialization specialization = findSpecializationById(userRequestDTO.getSpecializationId());
-        user.setSpecialization(specialization);
 
         if(user.getUsername() == null || user.getUsername().isEmpty()) {
             throw new BaseException(new ErrorMessage(MessageType.RECORD_CREATE_UNSUCCESS,""));

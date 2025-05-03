@@ -20,9 +20,6 @@ public class BloodResult {
     private Long id;
     private String testName;
 
-    @CurrentTimestamp
-    private LocalDate uploadDate;
-
     private String fileName;
     private String filePath;
 
@@ -33,5 +30,8 @@ public class BloodResult {
     @ManyToOne
     @JoinColumn(name = "patient_id")
     private Patient patient;
+
+    @CurrentTimestamp
+    private LocalDate uploadDate;
 
 }

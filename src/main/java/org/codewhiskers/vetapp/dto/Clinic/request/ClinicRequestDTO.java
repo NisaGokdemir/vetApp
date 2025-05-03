@@ -11,6 +11,7 @@ public class ClinicRequestDTO {
     private String name;
     @NotBlank(message = "Clinic address is required")
     private String address;
-    @NotBlank(message = "Clinic phone number is required")
+
     private String phoneNumber;
+    private String email;
 }

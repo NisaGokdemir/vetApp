@@ -9,8 +9,4 @@ import org.codewhiskers.vetapp.dto.Specialization.response.SpecializationRespons
 public class UserResponseDTO {
     private Long id;
     private String username;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private SpecializationResponseDTO specialization;
 }

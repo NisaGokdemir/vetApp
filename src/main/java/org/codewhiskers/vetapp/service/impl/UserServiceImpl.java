@@ -55,8 +55,6 @@ public class UserServiceImpl implements IUserService {
     public UserResponseDTO createUser(UserRequestDTO userRequestDTO) {
 
         User user = userMapper.requestDTOToUser(userRequestDTO);
-        Specialization specialization = findSpecializationById(userRequestDTO.getSpecializationId());
-        user.setSpecialization(specialization);
         if(user.getUsername() == null || user.getUsername().isEmpty()) {
             throw new BaseException(new ErrorMessage(MessageType.RECORD_CREATE_UNSUCCESS,""));
         }
@@ -68,8 +66,6 @@ public class UserServiceImpl implements IUserService {
     public UserResponseDTO updateUser(Long id, UserRequestDTO userRequestDTO) {
         User user = findUserById(id);
         userMapper.updateUserFromRequestDTO(userRequestDTO, user);
-        Specialization specialization = findSpecializationById(userRequestDTO.getSpecializationId());
-        user.setSpecialization(specialization);
         user = userRepository.save(user);
         if (user.getUsername() == null || user.getUsername().isEmpty()) {
             throw new BaseException(new ErrorMessage(MessageType.RECORD_UPDATE_UNSUCCESS,id.toString()));
