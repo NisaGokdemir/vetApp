@@ -1,6 +1,7 @@
-package org.codewhiskers.vetapp.config;
+package org.codewhiskers.vetapp.config.security.config;
 
 import lombok.RequiredArgsConstructor;
+import org.codewhiskers.vetapp.config.security.handler.CustomAccessDeniedHandler;
 import org.codewhiskers.vetapp.jwt.AuthEntryPoint;
 import org.codewhiskers.vetapp.jwt.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
