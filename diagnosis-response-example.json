@@ -1,0 +1,42 @@
+{
+  "id": 1,
+  "patient": {
+    "id": 1,
+    "name": "Max",
+    "species": {
+      "id": 1,
+      "name": "Köpek"
+    },
+    "breed": {
+      "id": 5,
+      "name": "Golden Retriever"
+    }
+  },
+  "clinic": {
+    "id": 1,
+    "name": "Merkez Veteriner Kliniği",
+    "address": "Atatürk Cad. No:123, İstanbul"
+  },
+  "veterinarian": {
+    "id": 1,
+    "firstName": "Ahmet",
+    "lastName": "Yılmaz",
+    "specialization": {
+      "id": 1,
+      "name": "Küçük Hayvan Uzmanı"
+    }
+  },
+  "disease": {
+    "id": 1,
+    "name": "Kennel Cough (Köpek Öksürüğü)",
+    "category": "Solunum Yolu Enfeksiyonu",
+    "symptoms": "Kuru öksürük, hırıltılı solunum, burun akıntısı, ateş, iştahsızlık, enerji kaybı",
+    "animalTypes": "Köpek"
+  },
+  "diagnosis": "Hasta köpekte Kennel Cough tespit edildi. Hafif-orta şiddette enfeksiyon belirtileri gösteriyor.",
+  "symptoms": "Kuru öksürük, hafif ateş, burun akıntısı, halsizlik",
+  "treatmentPlan": "Antibiyotik tedavisi (Doxycycline), istirahat, bol su, nemli ortam",
+  "notes": "Hasta son bir haftadır köpek otelinde kalmış. Diğer köpeklerle temas var.",
+  "diagnosisDate": "2025-05-03",
+  "nextFollowUpDate": "2025-05-10T10:30:00"
+} 

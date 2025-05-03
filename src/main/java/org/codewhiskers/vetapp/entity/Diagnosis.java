@@ -40,7 +40,11 @@ public class Diagnosis {
 
     @ManyToOne
     @JoinColumn(name = "vet_id")
-    private User vet;
+    private Veterinarian veterinarian;
+
+    @ManyToOne
+    @JoinColumn(name = "disease_id")
+    private Disease disease;
 
     @CurrentTimestamp
     private LocalDate diagnosisDate;

@@ -1,0 +1,11 @@
+{
+  "patientId": 1,
+  "veterinarianId": 1,
+  "clinicId": 1,
+  "diseaseId": 1,
+  "diagnosis": "Hasta köpekte Kennel Cough tespit edildi. Hafif-orta şiddette enfeksiyon belirtileri gösteriyor.",
+  "symptoms": "Kuru öksürük, hafif ateş, burun akıntısı, halsizlik",
+  "treatmentPlan": "Antibiyotik tedavisi (Doxycycline), istirahat, bol su, nemli ortam",
+  "notes": "Hasta son bir haftadır köpek otelinde kalmış. Diğer köpeklerle temas var.",
+  "nextFollowUpDate": "2025-05-10T10:30:00"
+} 

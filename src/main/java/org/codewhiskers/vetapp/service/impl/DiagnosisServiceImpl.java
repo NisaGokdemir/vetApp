@@ -5,16 +5,18 @@ import org.codewhiskers.vetapp.dto.Diagnosis.request.DiagnosisRequestDTO;
 import org.codewhiskers.vetapp.dto.Diagnosis.response.DiagnosisResponseDTO;
 import org.codewhiskers.vetapp.entity.Clinic;
 import org.codewhiskers.vetapp.entity.Diagnosis;
+import org.codewhiskers.vetapp.entity.Disease;
 import org.codewhiskers.vetapp.entity.Patient;
-import org.codewhiskers.vetapp.entity.User;
+import org.codewhiskers.vetapp.entity.Veterinarian;
 import org.codewhiskers.vetapp.exception.BaseException;
 import org.codewhiskers.vetapp.exception.ErrorMessage;
 import org.codewhiskers.vetapp.exception.MessageType;
 import org.codewhiskers.vetapp.mapper.DiagnosisMapper;
 import org.codewhiskers.vetapp.repository.ClinicRepository;
 import org.codewhiskers.vetapp.repository.DiagnosisRepository;
+import org.codewhiskers.vetapp.repository.DiseaseRepository;
 import org.codewhiskers.vetapp.repository.PatientRepository;
-import org.codewhiskers.vetapp.repository.UserRepository;
+import org.codewhiskers.vetapp.repository.VeterinarianRepository;
 import org.codewhiskers.vetapp.service.IDiagnosisService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,9 +31,10 @@ public class DiagnosisServiceImpl implements IDiagnosisService {
 
     private final DiagnosisRepository diagnosisRepository;
     private final DiagnosisMapper diagnosisMapper;
-    private final UserRepository userRepository;
+    private final VeterinarianRepository veterinarianRepository;
     private final PatientRepository patientRepository;
     private final ClinicRepository clinicRepository;
+    private final DiseaseRepository diseaseRepository;
 
     private Diagnosis findDiagnosisById(Long id) {
         return diagnosisRepository.findById(id).orElseThrow(
@@ -39,21 +42,27 @@ public class DiagnosisServiceImpl implements IDiagnosisService {
         );
     }
 
-    private User findUserById(Long id) {
-        return userRepository.findById(id).orElseThrow(
-                () -> new BaseException(new ErrorMessage(MessageType.NO_RECORD_EXIST,id.toString()))
+    private Veterinarian findVeterinarianById(Long id) {
+        return veterinarianRepository.findById(id).orElseThrow(
+                () -> new BaseException(new ErrorMessage(MessageType.NO_RECORD_EXIST,"Veteriner bulunamadı: " + id))
         );
     }
 
     private Patient findPatientById(Long id) {
         return patientRepository.findById(id).orElseThrow(
-                () -> new BaseException(new ErrorMessage(MessageType.NO_RECORD_EXIST,id.toString()))
+                () -> new BaseException(new ErrorMessage(MessageType.NO_RECORD_EXIST,"Hasta bulunamadı: " + id))
         );
     }
 
     private Clinic findClinicById(Long id) {
         return clinicRepository.findById(id).orElseThrow(
-                () -> new BaseException(new ErrorMessage(MessageType.NO_RECORD_EXIST,id.toString()))
+                () -> new BaseException(new ErrorMessage(MessageType.NO_RECORD_EXIST,"Klinik bulunamadı: " + id))
+        );
+    }
+    
+    private Disease findDiseaseById(Long id) {
+        return diseaseRepository.findById(id).orElseThrow(
+                () -> new BaseException(new ErrorMessage(MessageType.NO_RECORD_EXIST,"Hastalık bulunamadı: " + id))
         );
     }
 
@@ -78,12 +87,20 @@ public class DiagnosisServiceImpl implements IDiagnosisService {
         if(diagnosis.getDiagnosis() == null || diagnosis.getDiagnosis().isEmpty()) {
             throw new BaseException(new ErrorMessage(MessageType.RECORD_CREATE_UNSUCCESS,""));
         }
-        User vet = findUserById(diagnosisRequestDTO.getVetId());
+        
+        // İlişkili nesneleri bul
+        Veterinarian veterinarian = findVeterinarianById(diagnosisRequestDTO.getVeterinarianId());
         Patient patient = findPatientById(diagnosisRequestDTO.getPatientId());
         Clinic clinic = findClinicById(diagnosisRequestDTO.getClinicId());
+        Disease disease = findDiseaseById(diagnosisRequestDTO.getDiseaseId());
+        
+        // İlişkileri ayarla
         diagnosis.setClinic(clinic);
-        diagnosis.setVet(vet);
+        diagnosis.setVeterinarian(veterinarian);
         diagnosis.setPatient(patient);
+        diagnosis.setDisease(disease);
+        
+        // Kaydet
         diagnosis = diagnosisRepository.save(diagnosis);
         return diagnosisMapper.diagnosisToResponseDTO(diagnosis);
     }
@@ -91,16 +108,27 @@ public class DiagnosisServiceImpl implements IDiagnosisService {
     @Override
     public DiagnosisResponseDTO updateDiagnosis(Long id, DiagnosisRequestDTO diagnosisRequestDTO) {
         Diagnosis diagnosis = findDiagnosisById(id);
-        User vet = findUserById(diagnosisRequestDTO.getVetId());
+        
+        // İlişkili nesneleri bul
+        Veterinarian veterinarian = findVeterinarianById(diagnosisRequestDTO.getVeterinarianId());
         Patient patient = findPatientById(diagnosisRequestDTO.getPatientId());
         Clinic clinic = findClinicById(diagnosisRequestDTO.getClinicId());
+        Disease disease = findDiseaseById(diagnosisRequestDTO.getDiseaseId());
+        
+        // DTO'dan bilgileri entity'ye güncelle
         diagnosisMapper.updateDiagnosisFromRequestDTO(diagnosisRequestDTO, diagnosis);
-        diagnosis.setVet(vet);
+        
+        // İlişkileri güncelle
+        diagnosis.setVeterinarian(veterinarian);
         diagnosis.setPatient(patient);
         diagnosis.setClinic(clinic);
+        diagnosis.setDisease(disease);
+        
         if (diagnosis.getDiagnosis() == null || diagnosis.getDiagnosis().isEmpty()) {
             throw new BaseException(new ErrorMessage(MessageType.RECORD_UPDATE_UNSUCCESS,id.toString()));
         }
+        
+        // Kaydet
         diagnosis = diagnosisRepository.save(diagnosis);
         return diagnosisMapper.diagnosisToResponseDTO(diagnosis);
     }
